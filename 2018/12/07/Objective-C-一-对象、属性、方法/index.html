@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Objective-C-(一)对象、属性、方法 | zzy&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
+<meta name="keywords" content="Recording Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C-(一)对象、属性、方法">
+<meta property="og:url" content="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/index.html">
+<meta property="og:site_name" content="zzy&#39;s Blog">
+<meta property="og:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg">
+<meta property="og:updated_time" content="2018-12-07T06:16:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C-(一)对象、属性、方法">
+<meta name="twitter:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
+<meta name="twitter:image" content="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="zzy&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">zzy&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">busy living busy dying</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zzycodder.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Objective-C-一-对象、属性、方法" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/07/Objective-C-一-对象、属性、方法/" class="article-date">
+  <time datetime="2018-12-07T03:20:54.000Z" itemprop="datePublished">2018-12-07</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Objective-C-(一)对象、属性、方法
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="1-对象模型"><a href="#1-对象模型" class="headerlink" title="1.对象模型"></a>1.对象模型</h2><p>Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 <strong>数据</strong> 和 <strong>行为</strong> 的封装。在OC中，数据的载体就是<strong>实例变量</strong>，我们可以通过<strong>属性</strong>便捷的访问到<strong>实例变量</strong>，<strong>行为</strong>其实就是对象的<strong>方法</strong>，也可以称为<strong>发消息</strong>，方法内部可以传递数据和操作数据。</p>
+<p>平时我们声明一个对象，例如:<code>NSString *string = @&quot;zzy&quot;;</code> 这条语句的意思是，创建了一个<code>NSString</code>类型的对象实例，实例的内容是<code>zzy</code>，并返回这个实例的内存地址给<code>string</code>这个变量保存，之后我们就可以通过变量<code>string</code>来操作这个实例。学过C语言的都知道，其实<code>*string</code>就是指这是一个<code>NSString</code>类型的指针，所以<strong>OC对象的本质其实就是指向某块内存地址的指针。</strong></p>
+<h3 id="对象的结构"><a href="#对象的结构" class="headerlink" title="对象的结构"></a>对象的结构</h3><p>在OC中每个对象都是一个类的实例，对象的结构如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/// Represents an instance of a class.</span><br><span class="line">struct objc_object &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line">&#125;;</span><br></pre></td></tr></table></figure>
+<p>可以看到对象是一个结构体，结构体当中有一个<code>Class</code>类型的成员变量<code>isa</code>。<code>Class</code>的定义为<code>typedef struct objc_class *Class;</code>，这是一个指向<code>objc_class</code>结构体的一个结构体指针。而<code>objc_class</code>其实就是对象所属类的原型：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">struct objc_class &#123;</span><br><span class="line">    Class _Nonnull isa  OBJC_ISA_AVAILABILITY;</span><br><span class="line"></span><br><span class="line">#if !__OBJC2__</span><br><span class="line">    Class _Nullable super_class                              OBJC2_UNAVAILABLE;</span><br><span class="line">    const char * _Nonnull name                               OBJC2_UNAVAILABLE;</span><br><span class="line">    long version                                             OBJC2_UNAVAILABLE;</span><br><span class="line">    long info                                                OBJC2_UNAVAILABLE;</span><br><span class="line">    long instance_size                                       OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_ivar_list * _Nullable ivars                  OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_method_list * _Nullable * _Nullable methodLists                    OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_cache * _Nonnull cache                       OBJC2_UNAVAILABLE;</span><br><span class="line">    struct objc_protocol_list * _Nullable protocols          OBJC2_UNAVAILABLE;</span><br><span class="line">#endif</span><br><span class="line"></span><br><span class="line">&#125; OBJC2_UNAVAILABLE;</span><br></pre></td></tr></table></figure>
+<p>可以看到<code>Class</code>中也存放了一个<code>isa</code>指针，所以<code>Class</code>也是一个对象，被称为<strong>类对象</strong>。同时<code>Class</code>结构体当中还存着：指向父类的<code>super_class</code>指针、类名、版本、实例对象的大小、实例变量列表、方法列表、缓存、协议等信息。通过类创建出来的实例对象所拥有的属性，方法，协议等都是存储在类结构体当中。</p>
+<p>实例对象的<code>isa</code>指针指向其所属的类，类结构体当中存放着对象的属性和方法列表。类对象的<code>isa</code>指针指向其所属的元类，元类中存放着类对象的方法列表（类方法），而元类内部也有一个<code>isa</code>指针，指向的是基类的元类，而基类的元类的<code>isa</code>指针指向自身。用一个经典的图类表示整个关系链路：</p>
+<p><img src="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg" alt=""></p>
+<h2 id="2-属性"><a href="#2-属性" class="headerlink" title="2. 属性"></a>2. 属性</h2><p>对象中的数据是通过实例变量来保存的，OC提供了一种便捷的访问实例变量的方式：<strong>属性</strong>。属性的本质就是包括<code>实例变量 + setter方法 + getter方法</code>。实例变量的值保存在对象内部，通过“偏移量(offset)”来保存，即：该变量距离对象内存区域的起始地址的距离，这个是通过硬编码来标识的。当我们声明一个属性之后，系统会自动帮我们生成一个成员变量和属性，这个成员变量和属性的描述（类型，名称等）分别存放在类的<code>ivar_list</code>和<code>property_list</code>当中，并且生成<code>setter</code>方法和<code>getter</code>方法追加到<code>method_list</code>当中，然后计算属性在对象内部的偏移量，并实现<code>setter</code>方法和<code>getter</code>方法。</p>
+<p>声明属性的方式：<code>@property (nonatomic, readwrite, copy) NSString *name;</code> 这个时候编译器会自动帮我们合成实例变量<code>_name</code>。默认的实例变量名为属性名前面加下划线。如果不想用系统默认的实例变量名，也可以通过<code>@synthesize</code>关键字手动指定实例变量名，例如<code>@synthesize name = _myName;</code> 那么我们的实例变量就变成了<code>_myName</code>，不过一般为了规范没有人这么做。</p>
+<p>如果不想让系统自动帮我们合成实例变量和<code>setter</code>、<code>getter</code>方法，也可以通过关键字<code>@dynamic</code>声明（例如：<code>@dynamic name;</code>），然后自己手动去合成实例变量和相关存取方法。如果没有实现这些合成方法的话，那么是无法正常使用属性的。</p>
+<p><strong>目前使用<code>@synthesize</code>的一般场景：</strong></p>
+<ul>
+<li>当我们手动实现了<code>setter</code>和<code>getter</code>方法的时候，系统默认我们自己管理属性，所以就不再帮我们合成实例变量了，这个时候需要用<code>@synthesize</code>手动合成实例变量，不然编译器就会报错。</li>
+<li>当重写父类属性的时候，在子类中需要用<code>@synthesize</code>手动合成实例变量，否则无法使用。</li>
+<li>使用了<code>@dynamic</code>的时候。</li>
+</ul>
+<p>属性包含的三种语义：</p>
+<h4 id="atomic-amp-amp-nonatomic-：原子性-amp-amp-非原子性"><a href="#atomic-amp-amp-nonatomic-：原子性-amp-amp-非原子性" class="headerlink" title="atomic &amp;&amp; nonatomic ：原子性 &amp;&amp; 非原子性"></a>atomic &amp;&amp; nonatomic ：原子性 &amp;&amp; 非原子性</h4><p>在声明属性的时候，编译器默认的属性语义是<code>atomic</code>原子性的。<code>atomic</code>和<code>nonatomic</code>的区别是前者在<code>setter方法</code>赋值的时候会进行加锁保证赋值过程的完整性（安全性），而后者不会使用同步锁。在iOS中，由于频繁加锁会导致性能问题，而且即使采用了<code>atomic</code>，在多线程操作的情况下，也并不能保证线程的安全性。如果要保证线程安全，需要专门进行其他加锁机制处理。所以一般情况下，我们平时声明属性用的都是<code>nonatomic</code>。</p>
+<h4 id="readwrite-amp-amp-readonly-：可读可写-amp-amp-只读"><a href="#readwrite-amp-amp-readonly-：可读可写-amp-amp-只读" class="headerlink" title="readwrite &amp;&amp;  readonly ：可读可写 &amp;&amp; 只读"></a>readwrite &amp;&amp;  readonly ：可读可写 &amp;&amp; 只读</h4><p><code>readwrite</code> 表示属性可读可写。<code>readonly</code>表示属性只能读取不能修改，一般用于在<code>.h</code>中对外暴露的属性不想被别人修改时这么声明，然后在<code>.m的extension</code>中再重新定义为可读可写。编译器默认的属性语义为<code>readwrite</code>。</p>
+<h3 id="内存管理语义：strong、weak、copy、assign、unsafe-unretained"><a href="#内存管理语义：strong、weak、copy、assign、unsafe-unretained" class="headerlink" title="内存管理语义：strong、weak、copy、assign、unsafe_unretained"></a>内存管理语义：strong、weak、copy、assign、unsafe_unretained</h3><ul>
+<li><p><code>strong</code> 表示对属性所指对象的一种强引用的关系。当声明为<code>strong</code>时，在<code>setter</code>方法中会先持有新值，再释放旧值，然后再把新值赋值给实例变量。</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, strong) NSMutableArray *array;</span><br><span class="line">- (void)setArray:(NSMutableArray *)array &#123;</span><br><span class="line">   // [array retain];</span><br><span class="line">   // [_array release];</span><br><span class="line">    _array = array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>weak</code> 表示对属性所指对象的一种弱引用的关系。当声明为<code>weak</code>时，在<code>setter</code>方法中即不会持有新值，也不会释放旧值，只是进行一次简单的赋值操作。<strong>但是当属性所指的对象被销毁时，属性值会自动置为nil</strong> 比较安全。</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, weak) NSMutableArray *array;</span><br><span class="line">- (void)setArray:(NSMutableArray *)array &#123;</span><br><span class="line">    _array = array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p><code>copy</code> 类似于<code>strong</code>，也表示对属性所指对象的一种强引用的关系，不同的是，<code>copy</code>语义在<code>setter</code>方法中并不是直接持有新值，而是会拷贝出一份不可变的副本持有，然后再赋值给实例变量。</p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">@property (nonatomic, copy) NSString *name;</span><br><span class="line">- (void)setName:(NSString *)name &#123;</span><br><span class="line">    NSString *copyName = [name copy];</span><br><span class="line">    //[_name release];</span><br><span class="line">    _name = copyName;</span><br><span class="line">    //[copyName release]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p><code>copy</code>语义一般是用于那些具有可变子类的类型如:<code>NSArray</code>、<code>NSDictionary</code>、<code>NSString</code>等。这些类族都有其对应的可变子类，如果声明一个不可变的<code>NSString</code>类型的属性，由于父类指针可以指向子类对象，在给属性赋值的时候，传递给<code>setter</code>方法的值有可能是一个可变子类<code>NSMutableString</code>的实例对象，那么在该属性值赋值完成后，由于属性所指的对象其实是个可变的字符串，就有可能被外界所篡改。所以为了保证属性的安全，在赋值的时候需要先<strong>copy</strong>出一份不可变的对象，然后再赋值。</p>
+</li>
+<li><p><code>assign</code> 表示在 <code>setter</code> 方法赋值时只会进行简单的赋值操作，只用于修饰基本类型的数据（例如NSInteger、CGFloat等）。</p>
+</li>
+<li><p><code>unsafe_unretained</code> 语义类似于<code>assign</code>，不同的是它用于修饰对象类型。如同它的字面意义一样，它不会持有属性所指的对象（类似于<code>weak</code>），<strong>但是当属性所指的对象被销毁时，属性值不会自动置为nil</strong>，所以它并不安全，可能会导致野指针。</p>
+</li>
+</ul>
+<h2 id="3-方法"><a href="#3-方法" class="headerlink" title="3. 方法"></a>3. 方法</h2><p>在OC中，方法又被称为发消息，对象需要调用方法来传递数据，而方法是什么呢？例如一个方法：<code>[self doSomething:@&quot;something&quot;];</code>，编译器会将这个方法转为如下的C语言函数:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">objc_msgSend(self, @selector(doSomething:), @&quot;something&quot;);</span><br></pre></td></tr></table></figure>
+<p><code>objc_msgSend(id self, SEL cmd, ...)</code> 这个函数就是OC消息传递的核心函数。我们平时调用的方法最终都会转为这个函数调用。这个函数接受两个及以上的参数，分别是：<strong>消息的接收者</strong>、<strong>消息的签名selector</strong>、<strong>消息的参数</strong>。消息的接收者就是该方法的调用者，消息的签名是一个SEL类型的数据，可以理解为方法名的包装，参数就是调用方法所传递的参数，按顺序传入。</p>
+<p>当调用这个函数后，<code>objc_msgSend</code>会根据当前消息接收者的<code>isa</code>指针找到其所属的类，然后在类的方法列表中根据<code>selector</code>的名称找到对应的方法并执行，同时会将查找的结果缓存起来以供下次查找时快速的执行。如果找不到，就会根据<code>super_class</code> 指针沿着继承体系一直往上查找，直到找到合适的方法之后跳转到方法的实现并执行。如果直到找到基类还是找不到对应方法的话，那就开始执行<strong>消息转发</strong>机制。如果消息转发的过程中也没有找到的话，那就抛出异常程序终止。异常信息是常见的<code>unrecognized selector send to instace xxxx</code> </p>
+<h3 id="消息转发"><a href="#消息转发" class="headerlink" title="消息转发"></a>消息转发</h3><p>上面在介绍<strong>方法</strong>调用的实现流程时说到了<strong>消息转发</strong>，消息转发是发生在当给一个对象发送没有实现的方法时会启动消息转发。例如我们给一个对象发送没有实现的消息：</p>
+<p><code>[obj performSelector:@selector(doWork:array:) withObject:@&quot;somthing&quot; withObject:@[@&quot;work&quot;]];</code></p>
+<p>此时消息转发一共分为三个阶段：</p>
+<h4 id="第一个阶段：动态方法解析"><a href="#第一个阶段：动态方法解析" class="headerlink" title="第一个阶段：动态方法解析"></a>第一个阶段：动态方法解析</h4><p>runtime会先询问对象所属的类，看其能否动态的添加方法以处理当前未处理的消息。处理的方法有两个：</p>
+<p>实例方法：<code>+ (BOOL)resolveInstanceMethod:(SEL)sel</code></p>
+<p>类方法：<code>+ (BOOL)resolveClassMethod:(SEL)sel</code></p>
+<p>方法的参数就是当前消息的<code>selector</code>，返回值是来标识当前的类是否能动态的添加方法来处理这个<code>selector</code></p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">@interface MessageInvokeObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MessageInvokeObj</span><br><span class="line"></span><br><span class="line">void doWork(id self, SEL cmd, NSString *work, NSArray *array) &#123;</span><br><span class="line">    NSLog(@&quot;work = %@, array = %@&quot;, work, array);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">+ (BOOL)resolveInstanceMethod:(SEL)sel &#123;</span><br><span class="line">    NSString *selectorString = NSStringFromSelector(sel);</span><br><span class="line">    if ([selectorString isEqualToString:@&quot;doWork:array:&quot;]) &#123;</span><br><span class="line">        class_addMethod(self, sel, (IMP)doWork, &quot;v@:@:@&quot;);</span><br><span class="line">        return YES;</span><br><span class="line">    &#125;</span><br><span class="line">    return [super resolveInstanceMethod:sel];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>通过<code>class_addMethod</code>函数动态的添加一个方法来处理当前的消息。此时动态添加方法成功，消息转发结束。</p>
+<h4 id="第二个阶段：备援接收者"><a href="#第二个阶段：备援接收者" class="headerlink" title="第二个阶段：备援接收者"></a>第二个阶段：备援接收者</h4><p>如果第一个阶段无法处理该消息的话，runtime会询问当前的类能否把这个消息转发给其他对象去处理，如果可以的话，就返回这个对象，否则就返回nil。</p>
+<p>处理方法：<code>- (id)forwardingTargetForSelector:(SEL)aSelector</code></p>
+<p>eg:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">@interface InvokeMethodObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation InvokeMethodObj</span><br><span class="line"></span><br><span class="line">- (void)doWork:(NSString *)work array:(NSArray *)array &#123;</span><br><span class="line">    NSLog(@&quot;work = %@, array = %@&quot;, work, array);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@interface MessageInvokeObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MessageInvokeObj</span><br><span class="line"></span><br><span class="line">- (id)forwardingTargetForSelector:(SEL)aSelector &#123;</span><br><span class="line">    NSString *selString = NSStringFromSelector(aSelector);</span><br><span class="line">    if ([selString isEqualToString:@&quot;doWork:array:&quot;]) &#123;</span><br><span class="line">        InvokeMethodObj *obj = [[InvokeMethodObj alloc] init];</span><br><span class="line">        return obj;</span><br><span class="line">    &#125;</span><br><span class="line">    return [super forwardingTargetForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<h4 id="第三个阶段：-forwardInvocation"><a href="#第三个阶段：-forwardInvocation" class="headerlink" title="第三个阶段： forwardInvocation"></a>第三个阶段： forwardInvocation</h4><p>最后一个阶段，runtime会将这个消息的所有信息封装到<code>NSInvocation</code>对象当中，包括消息的接收者<code>target</code>、消息的<code>selector</code>以及消息的所有参数。最后一次询问接收者能否处理，如果不能将抛出异常。如果可以，直接把消息指派给目标对象。</p>
+<p>先返回正确的方法签名：<code>- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector</code></p>
+<p>然后执行消息转发：<code>- (void)forwardInvocation:(NSInvocation *)anInvocation</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface MessageInvokeObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MessageInvokeObj</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    NSString *selString = NSStringFromSelector(aSelector);</span><br><span class="line">    if ([selString isEqualToString:@&quot;doWork:array:&quot;]) &#123;</span><br><span class="line">        return [NSMethodSignature signatureWithObjCTypes:&quot;v@:@:@&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    return [super methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation &#123;</span><br><span class="line">    InvokeMethodObj *obj = [[InvokeMethodObj alloc] init];</span><br><span class="line">    if ([obj respondsToSelector:anInvocation.selector]) &#123;</span><br><span class="line">        [anInvocation invokeWithTarget:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpdn8f5w0000epdri5oxzg8a" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/06/hello-world/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Hello World</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+
+  
+    
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/07/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/06/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 zzy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
