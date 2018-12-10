@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect) | zzy&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="截图关于截图有两个方法： - (void)renderInContext:(CGContextRef)ctx： 作用于CALayer层的方法。将view的layer渲染到当前的绘制的上下文中。 - (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates: 作用于UIView的方法。对view进">
+<meta name="keywords" content="Recording Learning">
+<meta property="og:type" content="article">
+<meta property="og:title" content="关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)">
+<meta property="og:url" content="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/index.html">
+<meta property="og:site_name" content="zzy&#39;s Blog">
+<meta property="og:description" content="截图关于截图有两个方法： - (void)renderInContext:(CGContextRef)ctx： 作用于CALayer层的方法。将view的layer渲染到当前的绘制的上下文中。 - (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates: 作用于UIView的方法。对view进">
+<meta property="og:locale" content="default">
+<meta property="og:image" content="https://wx4.sinaimg.cn/mw690/007lgANOly1fy1rpd21y3j30790dc3z7.jpg">
+<meta property="og:image" content="https://wx4.sinaimg.cn/mw690/007lgANOgy1fy1rsnsk2jj30790dcjry.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/mw690/007lgANOgy1fy1rn3hrfoj30790dcq3g.jpg">
+<meta property="og:image" content="https://wx3.sinaimg.cn/mw690/007lgANOgy1fy1ruph6dcj30790dcaam.jpg">
+<meta property="og:image" content="https://wx2.sinaimg.cn/mw690/007lgANOgy1fy1rwtkrqxj30790dc0td.jpg">
+<meta property="og:image" content="https://wx3.sinaimg.cn/mw690/007lgANOgy1fy1s3kere9j30790dcmy2.jpg">
+<meta property="og:updated_time" content="2018-12-10T09:33:50.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)">
+<meta name="twitter:description" content="截图关于截图有两个方法： - (void)renderInContext:(CGContextRef)ctx： 作用于CALayer层的方法。将view的layer渲染到当前的绘制的上下文中。 - (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates: 作用于UIView的方法。对view进">
+<meta name="twitter:image" content="https://wx4.sinaimg.cn/mw690/007lgANOly1fy1rpd21y3j30790dc3z7.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="zzy&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">zzy&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">busy living busy dying</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zzycodder.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-关于截图的注意点-renderInContext-drawViewHierarchyInRect" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" class="article-date">
+  <time datetime="2018-12-10T09:32:53.000Z" itemprop="datePublished">2018-12-10</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="截图"><a href="#截图" class="headerlink" title="截图"></a>截图</h2><h4 id="关于截图有两个方法："><a href="#关于截图有两个方法：" class="headerlink" title="关于截图有两个方法："></a>关于截图有两个方法：</h4><ul>
+<li><code>- (void)renderInContext:(CGContextRef)ctx</code>： 作用于CALayer层的方法。将view的<code>layer</code>渲染到当前的绘制的上下文中。</li>
+<li><code>- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates</code>: 作用于UIView的方法。对view进行一个快照，然后将快照渲染到当前的上下文中。</li>
+</ul>
+<p><strong><code>renderInContext</code></strong>就不说了，比较容易，只需要注意下<code>UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)</code>函数中的的size即可。</p>
+<p>关键是<strong><code>- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates</code></strong>函数中多了一个描述位置的<code>rect</code>参数，容易弄不清这个<code>rect</code>跟<code>UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)</code>函数中的<code>size</code>的关系。之前一直没有完全理解这两个参数的区别，搜了很多资料发现都没有人讲清楚这两个参数的含义，网上来来回回都是一些雷同的代码，这次仔细测试研究了下，总结了下这两个参数的含义。 </p>
+<p>一般截图的方法可以用例如下面这段代码，对当前控制的view进行截图：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(CGSizeMake(CGRectGetWidth(self.view.frame), CGRectGetHeight(self.view.frame)), YES, 0.0);</span><br><span class="line">[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>先介绍下这两个函数的含义：</p>
+<p><code>UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)</code>  ：开启一个绘图的上下文</p>
+<ul>
+<li>size : size是指绘图上下文的宽高，可以理解为要绘制图形的画布的大小</li>
+<li>opaque ： 是否透明，如果传YES，画布的背景色为黑色，NO的时候，画布背景色是白色</li>
+<li>scale：指的是绘制出来的图片的像素比，决定了绘图图片的清晰度，一般填0.0，默认屏幕缩放比</li>
+</ul>
+<p><code>- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates</code>： 将要截屏的view绘制到当前的上下文中。</p>
+<p><code>rect</code>：指定图片绘制的坐标</p>
+<p><code>afterUpdates</code>：截图的瞬间是否将屏幕当前的变更渲染进去</p>
+<p><strong>这个方法的是<code>UIView</code>的方法，截图的目标对象就是当前方法的调用者。</strong></p>
+<p><strong>例如<code>[self.view drawViewHierarchyInRect:self.view.bounds afterScreenUpdates:NO];</code> 就是对<code>self.view</code>这个对象进行截图，会把<code>self.view</code> 当前的这个view全部截取下来然后绘制到当前的上下文中生成图片，然后按照这个方法中指定的<code>rect</code> 为frame，以画布为父视图绘制到画布中去。</strong></p>
+<p><strong>注意：截图截取的是<code>drawViewHierarchyInRect</code>这个方法调用的view，而渲染出来的效果（图片的位置和大小）是由<code>UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)</code>中的size和<code>- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates</code>中的rect共同决定的。</strong></p>
+<p>例如，我们要截取下面屏幕中的照片（请忽略被变形的照片…）</p>
+<p><img src="https://wx4.sinaimg.cn/mw690/007lgANOly1fy1rpd21y3j30790dc3z7.jpg" alt=""></p>
+<p>代码如下：</p>
+<p>注:</p>
+<p> <code>self.view</code>是当前控制器的<code>view</code></p>
+<p> <code>self.screenshotImgV</code> 是上面的图片的<code>UIImageView</code>。<code>self.screenshotImgV</code>的frame是:<code>(50, 37, 275, 489)</code></p>
+<p>为了方便理解，下面用<code>画布</code>来指代<code>绘制的上下文</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, 1, 0.0);</span><br><span class="line">[self.screenshotImgV drawViewHierarchyInRect:self.screenshotImgV.frame afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>如上指定<code>画布</code>的大小为当前<code>self.view</code>的大小，对<code>self.screenshotImgV</code>进行截图，同时设置截图后的图片在<code>画布</code>中的位置为自身的frame。</p>
+<p>截图效果:</p>
+<p><img src="https://wx4.sinaimg.cn/mw690/007lgANOgy1fy1rsnsk2jj30790dcjry.jpg" alt=""></p>
+<p>由于<code>self.view</code>的大小是大于当前<code>self.screenshotImgV</code>的大小，所以对<code>self.screenshotImgV</code>进行截图绘制后，并不能充满整个<code>画布</code>，只能占据其中的一部分。而占据的位置依据的就是<code>drawViewHierarchyInRect</code>方法中指定的<code>rect</code>。这个例子中指定的是<code>self.screenshotImgV.frame</code>，也即:<code>(50, 37, 275, 489)</code> 这个frame，所以就展示如上面效果。</p>
+<p>下面我们来调整下指定的<code>rect</code>， 让其为<code>self.screenshotImgV.bounds</code>，看看效果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(self.view.bounds.size, 1, 0.0);</span><br><span class="line">[self.screenshotImgV drawViewHierarchyInRect:self.screenshotImgV.bounds afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>截图效果:</p>
+<p><img src="https://wx2.sinaimg.cn/mw690/007lgANOgy1fy1rn3hrfoj30790dcq3g.jpg" alt=""></p>
+<p>如上图，由于<code>rect</code>用的是<code>self.screenshotImgV.bounds</code>，所以截图的坐标的<code>x</code>和<code>y</code>变为了<code>(0, 0)</code>，也就是图片的起始位置变为了最左上角。</p>
+<p>下面我们来换一下，把画布的大小设置为<code>self.screenshotImgV</code>的大小，然后对<code>self.view</code>进行截图，看看效果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(self.screenshotImgV.bounds.size, 1, 0.0);</span><br><span class="line">[self.view drawViewHierarchyInRect:self.screenshotImgV.frame afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>截图效果:</p>
+<p><img src="https://wx3.sinaimg.cn/mw690/007lgANOgy1fy1ruph6dcj30790dcaam.jpg" alt=""></p>
+<p>如上，由于<code>rect</code>指定为<code>self.screenshotImgV.frame</code>，只能从<code>(50, 37)</code>这个位置开始渲染，所以在截图的时候只能截取<code>self.view</code>中的一部分，另外一部分超出画布范围截取不到。如果frame的坐标是从<code>(0,0)</code>开始效果如何呢?</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(self.screenshotImgV.bounds.size, 1, 0.0);</span><br><span class="line">[self.view drawViewHierarchyInRect:self.screenshotImgV.bounds afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>截图效果:</p>
+<p><img src="https://wx2.sinaimg.cn/mw690/007lgANOgy1fy1rwtkrqxj30790dc0td.jpg" alt=""></p>
+<p>发现刚好把<code>self.view</code>完整的渲染出来了。这是因为<code>UIGraphicsBeginImageContextWithOptions</code>方法中的<code>size</code>和<code>drawViewHierarchyInRect</code>中指定的<code>rect.size</code>大小相同，而且<code>rect</code>的<code>x</code>,<code>y</code>都是<code>(0,0)</code>，所以截取的<code>self.view</code>从左上角起始位置开始渲染，刚好能够把整个画布充满，全部渲染出来。</p>
+<p>通过上面的例子，应你能弄清楚<code>UIGraphicsBeginImageContextWithOptions(CGSize size, BOOL opaque, CGFloat scale)</code>中的<code>size</code>和<code>- (BOOL)drawViewHierarchyInRect:(CGRect)rect afterScreenUpdates:(BOOL)afterUpdates</code>中的<code>rect</code>的意义和关系了吧。</p>
+<p>当然对于这个例子，如果我们想截取屏幕中的图片<code>self.screenshotImgV</code>，只需要把尺寸都指定为<code>self.screenshotImgV</code>的<code>size</code>既可:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">UIGraphicsBeginImageContextWithOptions(self.screenshotImgV.bounds.size, 1, 0.0);</span><br><span class="line">[self.screenshotImgV drawViewHierarchyInRect:self.screenshotImgV.bounds afterScreenUpdates:NO];</span><br><span class="line">UIImage *image = UIGraphicsGetImageFromCurrentImageContext();</span><br><span class="line">UIGraphicsEndImageContext();</span><br></pre></td></tr></table></figure>
+<p>截图效果:</p>
+<p><img src="https://wx3.sinaimg.cn/mw690/007lgANOgy1fy1s3kere9j30790dcmy2.jpg" alt=""></p>
+<h2 id="裁剪图片"><a href="#裁剪图片" class="headerlink" title="裁剪图片"></a>裁剪图片</h2><p>裁剪图片就是对当前的图片按照指定的大小范围生成一个新的图片，方法如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)createImageWithRect:(CGRect)rect image:(UIImage *)clipImage &#123;</span><br><span class="line">    CGImageRef imageRef = CGImageCreateWithImageInRect(clipImage.CGImage, rect);</span><br><span class="line">    UIImage *image = [UIImage imageWithCGImage:imageRef];</span><br><span class="line">    CGImageRelease(imageRef);</span><br><span class="line">    return image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里的<code>rect</code>就是指定的裁剪范围。方法比较简单，没有什么好解释的。主要注意的是，这里<code>rect</code> 包含的<code>x</code>,<code>y</code>,<code>width</code>,<code>height</code>应该是图片的绝对尺寸乘以图片的缩放因子，否则裁剪出来的图片是不对的。完整方法可改为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)createImageWithRect:(CGRect)rect image:(UIImage *)clipImage &#123;</span><br><span class="line">    rect.origin.x *= clipImage.scale;</span><br><span class="line">    rect.origin.y *= clipImage.scale;</span><br><span class="line">    rect.size.width *= clipImage.scale;</span><br><span class="line">    rect.size.height *= clipImage.scale;</span><br><span class="line">    CGImageRef imageRef = CGImageCreateWithImageInRect(clipImage.CGImage, rect);</span><br><span class="line">    UIImage *image = [UIImage imageWithCGImage:imageRef];</span><br><span class="line">    CGImageRelease(imageRef);</span><br><span class="line">    return image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h2 id="其他注意点"><a href="#其他注意点" class="headerlink" title="其他注意点:"></a>其他注意点:</h2><h4 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h4><ul>
+<li>对于WKWebView使用 <code>renderInContext</code>的方法进行截图的时候， 当WKWebView 执行<code>UIGraphicsGetCurrentContext()</code>的结果返回的nil，截图失败</li>
+<li>所以只能<code>UIView</code>的<code>drawViewHierarchyInRect</code>的方法去截图</li>
+</ul>
+<h4 id="UIVisualEffectView，高斯模糊蒙版"><a href="#UIVisualEffectView，高斯模糊蒙版" class="headerlink" title="UIVisualEffectView，高斯模糊蒙版"></a>UIVisualEffectView，高斯模糊蒙版</h4><ul>
+<li>对于使用了<code>UIBlurEffect</code>进行高斯模糊的UIView进行截图的时候，如果对<code>view.layer</code>使用 <code>renderInContext</code>的方法进行截图，上面的高斯模糊蒙版会失真失效，可以改用<code>drawViewHierarchyInRect</code>方法，这样能够保持高斯模糊的效果。相对于<code>renderInContext</code>是对view的<code>layer</code>渲染到当前的上下文中，<code>drawViewHierarchyInRect</code>方法是对view进行一个快照，然后将快照渲染到当前的上下文中。</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpi4e2q10000zldrlt7t9926" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/07/Objective-C-一-对象、属性、方法/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Objective-C-(一)对象、属性、方法</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-一-对象、属性、方法</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Objective-C-一-对象、属性、方法/" style="font-size: 10px;">Objective-C-一-对象、属性、方法</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/">关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/06/hello-world/">Hello World</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 zzy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
