@@ -15,7 +15,7 @@
 <meta property="og:site_name" content="zzy&#39;s Blog">
 <meta property="og:description" content="由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。 简单回顾下C程序的占用空间的几个区域：  程序代码区：存放程序执行代码的区域 静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域： BSS段（Block Star">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-14T07:53:28.000Z">
+<meta property="og:updated_time" content="2018-12-14T09:20:56.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C-(二)内存管理">
 <meta name="twitter:description" content="由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。 简单回顾下C程序的占用空间的几个区域：  程序代码区：存放程序执行代码的区域 静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域： BSS段（Block Star">
@@ -149,7 +149,7 @@
 <li><strong>__strong</strong> ：变量的默认修饰符，默认不指定的话就是<code>__strong</code>。<code>__strong</code>表明了一种强引用的关系，表示当前修饰的变量持有对象，类似于MRC下的<code>retain</code>。</li>
 <li><strong>__weak</strong>：与<code>__strong</code>相反，<code>__weak</code>表明一种弱引用的关系，表示当前修饰的变量并不会持有该对象，当对象被系统释放后，__weak变量会自动置为nil，比较安全，常用于解决循环引用的情况。</li>
 <li><strong>__unsafe_unretained</strong>：同<code>__weak</code>一样，该修饰符同样不会持有对象，但是不同的是，当变量指向的对象被系统释放后，变量不会自动置为nil，该指针会变为野指针，如果再次访问该变量，会导致野指针访问错误。现在很少会用到该修饰符。</li>
-<li><strong>__autoreleasing</strong>：用于标识引用传值的参数（id <em>,  NSObject **），类似于<code>autorelease</code>，在函数返回该值时会被自动释放掉。常见于NSError的传递中: `error:(NSError </em>__autoreleasing *)error`</li>
+<li><strong>__autoreleasing</strong>：用于修饰引用传值的参数<code>（id *,  NSObject **）</code>，类似于调用<code>autorelease</code>方法，在函数返回该值时会被自动释放掉。常见于NSError的传递中：例如：<code>error:(NSError *__autoreleasing *)error</code>，传递<code>error</code>变量的引用，这样的话才可以在函数内部对<code>error</code>进行重新赋值然后返回给调用者，同时将内部的创建的<code>error</code>对象注册到<code>Autorelease Pool</code>中稍后释放。</li>
 </ul>
 <p>具体用法就不举例了，平时写代码用的都是这些修饰符，不过大部分情况用的是<code>__strong</code>，默认省略了这个修饰符而已。</p>
 <h3 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h3><p>MRC下，我们要使用自动释放池需要手动创建<code>NSAutoreleasepool</code>，并且要执行对象的<code>autorelease</code>方法和NSAutoreleasepool的 <code>drain</code>方法销毁自动释放池。ARC下我们只需要使用<code>@autoreleasepool</code>语法就可以代替MRC下的<code>NSAutoreleasepool</code>。Autorelease Pool 就是提供了一种延迟给对象发送<code>release</code>消息的机制。当你想放弃一个对象的所有权，但是又不想这个对象立刻被释放掉，就可以使用Autorelease Pool。</p>
@@ -175,7 +175,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpnqhs310001psdr86igz5x1" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpnqkrbj0001r2drukmvobff" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
