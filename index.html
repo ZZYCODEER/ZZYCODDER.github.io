@@ -152,7 +152,7 @@
 <li><strong>__unsafe_unretained</strong>：同<code>__weak</code>一样，该修饰符同样不会持有对象，但是不同的是，当变量指向的对象被系统释放后，变量不会自动置为nil，该指针会变为野指针，如果再次访问该变量，会导致野指针访问错误。现在很少会用到该修饰符。</li>
 <li><strong>__autoreleasing</strong>：用于标识引用传值的参数（id <em>,  NSObject **），类似于<code>autorelease</code>，在函数返回该值时会被自动释放掉。常见于NSError的传递中：`error:(NSError </em>__autoreleasing *)error`</li>
 </ul>
-<h3 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h3><p>MRC下，我们要使用自动释放池需要手动创建<code>NSAutoreleasepool</code>，并且要执行对象的<code>autorelease</code>方法和NSAutoreleasepool的 <code>drain</code>方法销毁自动释放池。ARC下我们只需要使用<code>@autoreleasepool</code>语法就可以代替MRC下的<code>NSAutoreleasepool</code>。Autorelease Pool 就是提供了一种延迟给对象发送<code>release</code>消息的机制。当你想放弃一个对象的所有权，但是又不想这个对象立刻被释放掉，就可以使用Autorelease Pool。</p>
+<h3 id=""><a href="#" class="headerlink" title=" "></a> </h3><h3 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h3><p>MRC下，我们要使用自动释放池需要手动创建<code>NSAutoreleasepool</code>，并且要执行对象的<code>autorelease</code>方法和NSAutoreleasepool的 <code>drain</code>方法销毁自动释放池。ARC下我们只需要使用<code>@autoreleasepool</code>语法就可以代替MRC下的<code>NSAutoreleasepool</code>。Autorelease Pool 就是提供了一种延迟给对象发送<code>release</code>消息的机制。当你想放弃一个对象的所有权，但是又不想这个对象立刻被释放掉，就可以使用Autorelease Pool。</p>
 <p>ARC下使用Autorelease Pool的场景：当在循环遍历中创建大量临时对象的时候，为了避免内存峰值可以使用Autorelease Pool来避免。例如:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSData *data = UIImageJPEGRepresentation(image, 0.7f);</span><br><span class="line">        UIImage *image = [UIImage imageWithData:data];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>如果不适用<code>@autoreleasepool</code>，for循环内部创建出的大量UIImage对象需要等到循环结束时才能释放，这样会导致内存暴涨。当指定了<code>@autoreleasepool</code>后，每次循环结束的时候对象就会被释放掉，避免了内存峰值。</p>
@@ -168,11 +168,12 @@
 <li>使用弱引用weak（__weak）</li>
 <li>当持有的实例完成任务后赋值为nil</li>
 </ul>
+<p>OC内存管理大概就是这些，要想更深入的理解，可以了解下内存管理方法是如何实现的。下一篇写下OC的内存管理的实现原理。</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpno7ada0000jhdrpotpe4le" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpno7oxt0003kadrqa8rf7bv" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -273,7 +274,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpno7ads0003jhdrszvxo6zn" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpno7oxw0004kadrzad99nbu" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -370,11 +371,12 @@
 <p>先返回正确的方法签名：<code>- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector</code></p>
 <p>然后执行消息转发：<code>- (void)forwardInvocation:(NSInvocation *)anInvocation</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface MessageInvokeObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MessageInvokeObj</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    NSString *selString = NSStringFromSelector(aSelector);</span><br><span class="line">    if ([selString isEqualToString:@&quot;doWork:array:&quot;]) &#123;</span><br><span class="line">        return [NSMethodSignature signatureWithObjCTypes:&quot;v@:@:@&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    return [super methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation &#123;</span><br><span class="line">    InvokeMethodObj *obj = [[InvokeMethodObj alloc] init];</span><br><span class="line">    if ([obj respondsToSelector:anInvocation.selector]) &#123;</span><br><span class="line">        [anInvocation invokeWithTarget:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>OC对象模型大概就是这些，要想更深入的了解，需要读下<code>runtime</code>的源码。下一篇写下OC的内存管理…</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpno7adi0001jhdrh602eg6i" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpno7owq0000kadrdcxz2icq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>

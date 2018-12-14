@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg">
-<meta property="og:updated_time" content="2018-12-14T03:08:34.000Z">
+<meta property="og:updated_time" content="2018-12-14T06:52:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C-(一)对象、属性、方法">
 <meta name="twitter:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
@@ -156,11 +156,12 @@
 <p>先返回正确的方法签名：<code>- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector</code></p>
 <p>然后执行消息转发：<code>- (void)forwardInvocation:(NSInvocation *)anInvocation</code></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">@interface MessageInvokeObj : NSObject</span><br><span class="line"></span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MessageInvokeObj</span><br><span class="line"></span><br><span class="line">- (NSMethodSignature *)methodSignatureForSelector:(SEL)aSelector &#123;</span><br><span class="line">    NSString *selString = NSStringFromSelector(aSelector);</span><br><span class="line">    if ([selString isEqualToString:@&quot;doWork:array:&quot;]) &#123;</span><br><span class="line">        return [NSMethodSignature signatureWithObjCTypes:&quot;v@:@:@&quot;];</span><br><span class="line">    &#125;</span><br><span class="line">    return [super methodSignatureForSelector:aSelector];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">- (void)forwardInvocation:(NSInvocation *)anInvocation &#123;</span><br><span class="line">    InvokeMethodObj *obj = [[InvokeMethodObj alloc] init];</span><br><span class="line">    if ([obj respondsToSelector:anInvocation.selector]) &#123;</span><br><span class="line">        [anInvocation invokeWithTarget:obj];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>OC对象模型大概就是这些，要想更深入的了解，需要读下<code>runtime</code>的源码。下一篇写下OC的内存管理…</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpno7adi0001jhdrh602eg6i" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpno7owq0000kadrdcxz2icq" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
