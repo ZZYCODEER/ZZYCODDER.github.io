@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>Objective-C-(二)内存管理 | zzy&#39;s Blog</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Objective-C 内存管理由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。 简单回顾下C程序的占用空间的几个区域：  程序代码区：存放程序执行代码的区域 静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域：">
+<meta name="keywords" content="Objective-C-(二)内存管理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Objective-C-(二)内存管理">
+<meta property="og:url" content="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/index.html">
+<meta property="og:site_name" content="zzy&#39;s Blog">
+<meta property="og:description" content="Objective-C 内存管理由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。 简单回顾下C程序的占用空间的几个区域：  程序代码区：存放程序执行代码的区域 静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域：">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2018-12-14T06:47:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Objective-C-(二)内存管理">
+<meta name="twitter:description" content="Objective-C 内存管理由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。 简单回顾下C程序的占用空间的几个区域：  程序代码区：存放程序执行代码的区域 静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域：">
+  
+    <link rel="alternate" href="/atom.xml" title="zzy&#39;s Blog" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">zzy&#39;s Blog</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">busy living busy dying</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://zzycodder.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-Objective-C-二-内存管理" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/14/Objective-C-二-内存管理/" class="article-date">
+  <time datetime="2018-12-14T06:44:13.000Z" itemprop="datePublished">2018-12-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Objective-C-(二)内存管理
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="Objective-C-内存管理"><a href="#Objective-C-内存管理" class="headerlink" title="Objective-C 内存管理"></a>Objective-C 内存管理</h2><p>由于Objective-C是基于C语言的，在了解Objective-C内存管理前应该先了解下C语言的内存模型。</p>
+<p>简单回顾下C程序的占用空间的几个区域：</p>
+<ul>
+<li>程序代码区：存放程序执行代码的区域</li>
+<li>静态数据区：也称全局数据区，存放程序中的全局变量。例如：全局变量，静态变量，一般常量，字符串常量。静态数据区的内存是由程序终止时由系统自动释放。其中静态数据区具体又分为两块区域：<ul>
+<li>BSS段（Block Started by Symbol）：未初始化的全局变量</li>
+<li>数据段（data segment）：已初始化的全局变量</li>
+</ul>
+</li>
+<li>堆区：由程序员手动管理分配和释放。通过<code>malloc()</code>、<code>calloc</code>、<code>free()</code>等函数操作的就是堆区的内存。</li>
+<li>栈区：函数的参数，局部变量等存放在栈区。栈区的内存由系统自动分配和释放。</li>
+</ul>
+<p>在Objective-C中创建的对象都分配在堆区，内存管理针对的也是这块区域。</p>
+<p>Objective-C内存管理的核心其实<strong>引用计数</strong>。系统通过对一个对象引用计数的计算来确认是否要释放对象回收内存。Objective-C有两种内存管理机制：手动管理（MRC）和自动管理（ARC）。ARC的原理其实跟MRC是一致的，只是系统自动帮我们在合适的地方键入了内存管理的方法，避免了手动管理带来了麻烦和失误。目前基本上开发用的都是ARC。最开始学习iOS的时候也用过MRC，先介绍下MRC的机制。</p>
+<h3 id="MRC"><a href="#MRC" class="headerlink" title="MRC"></a>MRC</h3><p>操作对象的四种方式：</p>
+<ul>
+<li>生成并持有对象：<strong>alloc/new/copy/mutableCopy等</strong>， retainCount ：+1</li>
+<li>持有对象：<strong>retain</strong>，retainCount ：+1</li>
+<li>释放对象：<strong>release</strong>，retainCount ：-1</li>
+<li>废弃对象：<strong>dealloc</strong>， 自动释放内存</li>
+</ul>
+<p>内存管理的四个法则：</p>
+<ul>
+<li>自己生成的对象，自己持有</li>
+<li>非自己生成的对象，自己也能持有</li>
+<li>不再需要自己持有对象的时候释放对象</li>
+<li>非自己持有的对象无法释放</li>
+</ul>
+<p>示例代码：</p>
+<p>自己生成的对象，自己持有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">*  以 alloc/new/copy/mutableCopy 等方法创建的对象归调用者持有 </span><br><span class="line">*/</span><br><span class="line">id obj = [[NSObject alloc] init]; //创建一个NSObject对象返回给变量obj, 并且归调用者持有</span><br></pre></td></tr></table></figure>
+<p>非自己生成的对象，自己也能持有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">/**</span><br><span class="line">*  alloc/new/copy/mutableCopy 等方法以外的方式创建的对象不归调用者持有 </span><br><span class="line">*/</span><br><span class="line">id obj = [NSMutableArray array]; // 非自己生成的对象，该对象存在，但不归调用者持有</span><br><span class="line">[obj retain]; // 如果想持有该对象，需要执行retain方法</span><br></pre></td></tr></table></figure>
+<p><strong>非自己生成的对象，且该对象存在是通过<code>autorelease</code>来实现的。<code>autorelease</code>提供了一种使得对象在超出生命周期后能正确的被释放(通过调用release方法)机制，以便于将对象返回给调用者，让调用者持有后再释放对象。否则对象还没来得及被调用者持有就被系统释放了。调用<code>autorelease</code>后对象不会立刻被释放，而是被注册到<code>autoreleasepool</code>中，然后当<code>autoreleasepool</code>结束被销毁的时候，才会调用对象的<code>release</code>方法释放对象。</strong></p>
+<p>不再需要自己持有对象的时候释放对象：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id obj = [[NSObject alloc] init];</span><br><span class="line">[obj release]; // 释放自己生成并持有的对象</span><br></pre></td></tr></table></figure>
+<p>非自己持有的对象无法释放：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">id obj = [NSMutableArray array]; </span><br><span class="line">[obj release];  //由于当前的调用者并不持有改对象，不能进行释放操作，否则导致程序崩溃。如果要释放该对象，需要先对对象进行retain操作。</span><br><span class="line">/**</span><br><span class="line">以上方法在Xcode9中经测试发现如果返回给obj的是NSMutableArray对象，会导致程序崩溃，但是如果是NSArray就不会。</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
+<p>MRC下要注意属性的引用计数情况。虽然<code>retainCount</code>在获取引用计数的时候有时候不准确，但是也可以用来调试参考。例如我们给一个属性赋值如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">@interface MemoryRefenceVC ()</span><br><span class="line">@property (nonatomic, copy) NSArray *array;</span><br><span class="line">@end</span><br><span class="line"></span><br><span class="line">@implementation MemoryRefenceVC</span><br><span class="line"></span><br><span class="line">- (void)viewDidLoad &#123;</span><br><span class="line">    [super viewDidLoad];</span><br><span class="line">    </span><br><span class="line">    self.array = [[NSArray alloc] initWithObjects:@1, nil];</span><br><span class="line">    NSLog(@&quot;array.retainCount = %ld&quot;, _array.retainCount);</span><br><span class="line">&#125;</span><br><span class="line">@end</span><br></pre></td></tr></table></figure>
+<p>打印如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">2018-12-12 17:25:57.607777+0800 XXX[9889:341414] array.retainCount = 2</span><br></pre></td></tr></table></figure>
+<p>我们创建了一个对象并且返回给调用者持有，为什么此时对象的引用计数是2呢？</p>
+<p>因为在属性的赋值setter方法中，会对当前的对象多进行一次引用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">- (void)setArray:(NSArray *)array &#123;</span><br><span class="line">    [array retain];  //进行了一次retain操作</span><br><span class="line">    _array = array;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>所以此时对象的内存引用情况是：alloc创建时retainCount为1，setter方法中retain了一次引用计数加1，所以此时retainCount变为了2。</p>
+<p>类似于如下操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">NSArray *temp = [[NSArray alloc] initWithObjects:@1, nil]; 引用计数+1</span><br><span class="line">self.array = temp; 引用计数+1</span><br></pre></td></tr></table></figure>
+<p>所以一般在使用属性赋值的时候一般这么写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">self.array = [[[NSArray alloc] initWithObjects:@2, nil] autorelease]; //用autorelease抵消一次retain操作</span><br></pre></td></tr></table></figure>
+<p>或者：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">NSArray *temp = [[NSArray alloc] initWithObjects:@1, nil]; </span><br><span class="line">self.array = temp; </span><br><span class="line">[temp release];</span><br></pre></td></tr></table></figure>
+<h3 id="ARC"><a href="#ARC" class="headerlink" title="ARC"></a>ARC</h3><p>ARC是苹果引入的一种自动管理内存的机制，实现的方式就是在编译的时候在代码合适的位置自动键入内存管理的代码。</p>
+<p>ARC下内存管理思想跟MRC一样，同样遵守上面的四个法则。只是ARC下已经没有了上面的<code>retain</code>、<code>release</code>、<code>autorelease</code>等直接操作对象内存管理的方法。ARC下Objective-C采用所有权修饰符来管理对对象的引用情况。</p>
+<ul>
+<li><strong>__strong</strong> ：变量的默认修饰符，默认不指定的话就是<code>__strong</code>。<code>__strong</code>表明了一种强引用的关系，表示当前修饰的变量持有对象，类似于MRC下的<code>retain</code>。</li>
+<li><strong>__weak</strong>：与<code>__strong</code>相反，<code>__weak</code>表明一种弱引用的关系，表示当前修饰的变量并不会持有该对象，当对象被系统释放后，__weak变量会自动置为nil，比较安全，常用于解决循环引用的情况。</li>
+<li><strong>__unsafe_unretained</strong>：同<code>__weak</code>一样，该修饰符同样不会持有对象，但是不同的是，当变量指向的对象被系统释放后，变量不会自动置为nil，该指针会变为野指针，如果再次访问该变量，会导致野指针访问错误。现在很少会用到该修饰符。</li>
+<li><strong>__autoreleasing</strong>：用于标识引用传值的参数（id <em>,  NSObject **），类似于<code>autorelease</code>，在函数返回该值时会被自动释放掉。常见于NSError的传递中：`error:(NSError </em>__autoreleasing *)error`</li>
+</ul>
+<h3 id="Autorelease-Pool"><a href="#Autorelease-Pool" class="headerlink" title="Autorelease Pool"></a>Autorelease Pool</h3><p>MRC下，我们要使用自动释放池需要手动创建<code>NSAutoreleasepool</code>，并且要执行对象的<code>autorelease</code>方法和NSAutoreleasepool的 <code>drain</code>方法销毁自动释放池。ARC下我们只需要使用<code>@autoreleasepool</code>语法就可以代替MRC下的<code>NSAutoreleasepool</code>。Autorelease Pool 就是提供了一种延迟给对象发送<code>release</code>消息的机制。当你想放弃一个对象的所有权，但是又不想这个对象立刻被释放掉，就可以使用Autorelease Pool。</p>
+<p>ARC下使用Autorelease Pool的场景：当在循环遍历中创建大量临时对象的时候，为了避免内存峰值可以使用Autorelease Pool来避免。例如:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">for (int i = 0; i &lt; 100; i++) &#123;</span><br><span class="line">    @autoreleasepool &#123;</span><br><span class="line">        NSData *data = UIImageJPEGRepresentation(image, 0.7f);</span><br><span class="line">        UIImage *image = [UIImage imageWithData:data];</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>如果不适用<code>@autoreleasepool</code>，for循环内部创建出的大量UIImage对象需要等到循环结束时才能释放，这样会导致内存暴涨。当指定了<code>@autoreleasepool</code>后，每次循环结束的时候对象就会被释放掉，避免了内存峰值。</p>
+<h3 id="循环引用"><a href="#循环引用" class="headerlink" title="循环引用"></a>循环引用</h3><p>循环引用是指几个对象（至少两个对象）之间互相持有强引用形成了一个闭环，导致在超出对象的生命周期后谁都释放不掉的情况。</p>
+<p>导致循环引用的可能情况：</p>
+<ul>
+<li>使用Block互相持有</li>
+<li>NSTimer强引用Target目标对象</li>
+<li>使用delegate</li>
+</ul>
+<p>解决循环引用的方法：</p>
+<ul>
+<li>使用弱引用weak（__weak）</li>
+<li>当持有的实例完成任务后赋值为nil</li>
+</ul>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpno7ada0000jhdrpotpe4le" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Objective-C-一-对象、属性、方法/" style="font-size: 10px;">Objective-C-(一)对象、属性、方法</a> <a href="/tags/Objective-C-二-内存管理/" style="font-size: 10px;">Objective-C-(二)内存管理</a> <a href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/" style="font-size: 10px;">关于截图(renderInContext && drawViewHierarchyInRect)</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2018/12/14/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/">关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/07/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2018 zzy<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
