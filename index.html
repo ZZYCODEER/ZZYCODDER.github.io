@@ -105,7 +105,7 @@
 <li>栈区：函数的参数，局部变量等存放在栈区。栈区的内存由系统自动分配和释放。</li>
 </ul>
 <p>在Objective-C中创建的对象都分配在堆区，内存管理针对的也是这块区域。</p>
-<p>Objective-C内存管理的核心其实<strong>引用计数</strong>。系统通过对一个对象引用计数的计算来确认是否要释放对象回收内存。Objective-C有两种内存管理机制：手动管理（MRC）和自动管理（ARC）。ARC的原理其实跟MRC是一致的，只是系统自动帮我们在合适的地方键入了内存管理的方法，避免了手动管理带来了麻烦和失误。目前基本上开发用的都是ARC。最开始学习iOS的时候也用过MRC，先介绍下MRC的机制。</p>
+<p>Objective-C内存管理的核心其实<strong>引用计数</strong>。系统通过对一个对象引用计数的计算来确认是否要释放对象。每个对象都有一个引用计数器，可以递增或者递减对象的引用计数，当引用计数大于0时，对象存活，反之当引用计数为0时，对象会被释放。Objective-C有两种内存管理机制：手动管理（MRC）和自动管理（ARC）。ARC的原理其实跟MRC是一致的，只是系统自动帮我们在合适的地方键入了内存管理的方法，避免了手动管理带来了麻烦和失误。目前基本上开发用的都是ARC。最开始学习iOS的时候也用过MRC，先介绍下MRC的机制。</p>
 <h3 id="MRC"><a href="#MRC" class="headerlink" title="MRC"></a>MRC</h3><p>操作对象的四种方式：</p>
 <ul>
 <li>生成并持有对象：<strong>alloc/new/copy/mutableCopy等</strong>， retainCount ：+1</li>
@@ -176,7 +176,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpox0g2z0001b0draylf0clk" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpox2dd20001c1drcu189urr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -277,7 +277,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpox0g3e0003b0drlfxddchr" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpox2ddd0003c1drqo9x476m" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -379,7 +379,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpox0g2t0000b0drkml7abib" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpox2dcv0000c1drryvdn4uz" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
