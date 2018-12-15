@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg">
-<meta property="og:updated_time" content="2018-12-14T06:52:33.000Z">
+<meta property="og:updated_time" content="2018-12-15T10:49:59.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C-(一)对象、属性、方法">
 <meta name="twitter:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
@@ -102,6 +102,8 @@
 <p>可以看到<code>Class</code>中也存放了一个<code>isa</code>指针，所以<code>Class</code>也是一个对象，被称为<strong>类对象</strong>。同时<code>Class</code>结构体当中还存着：指向父类的<code>super_class</code>指针、类名、版本、实例对象的大小、实例变量列表、方法列表、缓存、协议等信息。通过类创建出来的实例对象所拥有的属性，方法，协议等都是存储在类结构体当中。</p>
 <p>实例对象的<code>isa</code>指针指向其所属的类，类结构体当中存放着对象的属性和方法列表。类对象的<code>isa</code>指针指向其所属的元类，元类中存放着类对象的方法列表（类方法），而元类内部也有一个<code>isa</code>指针，指向的是基类的元类，而基类的元类的<code>isa</code>指针指向自身。用一个经典的图类表示整个关系链路：</p>
 <p><img src="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg" alt=""></p>
+<p>不能向编译后得到的类中增加实例变量：因为编译后的类已经注册在 runtime 中，类结构体中的 <code>objc_ivar_list</code> 实例变量的链表 和 <code>instance_size</code> 实例变量的内存大小已经确定，同时runtime 会调用 <code>class_setIvarLayout</code> 或 <code>class_setWeakIvarLayout</code> 来处理 strong weak 引用。所以不能向存在的类中添加实例变量。</p>
+<p>运行时创建的类是可以添加实例变量，调用 <code>class_addIvar</code> 函数。但是得在调用 <code>objc_allocateClassPair</code> 之后，<code>objc_registerClassPair</code> 之前，否则类一旦注册到runtime中后就不能改变实例变量了。</p>
 <h2 id="2-属性"><a href="#2-属性" class="headerlink" title="2. 属性"></a>2. 属性</h2><p>对象中的数据是通过实例变量来保存的，OC提供了一种便捷的访问实例变量的方式：<strong>属性</strong>。属性的本质就是包括<code>实例变量 + setter方法 + getter方法</code>。实例变量的值保存在对象内部，通过“偏移量(offset)”来保存，即：该变量距离对象内存区域的起始地址的距离，这个是通过硬编码来标识的。当我们声明一个属性之后，系统会自动帮我们生成一个成员变量和属性，这个成员变量和属性的描述（类型，名称等）分别存放在类的<code>ivar_list</code>和<code>property_list</code>当中，并且生成<code>setter</code>方法和<code>getter</code>方法追加到<code>method_list</code>当中，然后计算属性在对象内部的偏移量，并实现<code>setter</code>方法和<code>getter</code>方法。</p>
 <p>声明属性的方式：<code>@property (nonatomic, readwrite, copy) NSString *name;</code> 这个时候编译器会自动帮我们合成实例变量<code>_name</code>。默认的实例变量名为属性名前面加下划线。如果不想用系统默认的实例变量名，也可以通过<code>@synthesize</code>关键字手动指定实例变量名，例如<code>@synthesize name = _myName;</code> 那么我们的实例变量就变成了<code>_myName</code>，不过一般为了规范没有人这么做。</p>
 <p>如果不想让系统自动帮我们合成实例变量和<code>setter</code>、<code>getter</code>方法，也可以通过关键字<code>@dynamic</code>声明（例如：<code>@dynamic name;</code>），然后自己手动去合成实例变量和相关存取方法。如果没有实现这些合成方法的话，那么是无法正常使用属性的。</p>
@@ -161,7 +163,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpox2dcv0000c1drryvdn4uz" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjppcbcmm0003rudrjb3kocz0" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
