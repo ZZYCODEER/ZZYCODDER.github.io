@@ -16,7 +16,7 @@
 <meta property="og:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="https://wx1.sinaimg.cn/mw690/007lgANOgy1fxcilka9nyj30px0r5q4f.jpg">
-<meta property="og:updated_time" content="2018-12-17T04:40:32.000Z">
+<meta property="og:updated_time" content="2018-12-17T10:01:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Objective-C-(一)对象、属性、方法">
 <meta name="twitter:description" content="1.对象模型Objective-C是一门面向对象的语言，对象是我们编程的基本单元，所有的操作都是通过对象。对象其实是对 数据 和 行为 的封装。在OC中，数据的载体就是实例变量，我们可以通过属性便捷的访问到实例变量，行为其实就是对象的方法，也可以称为发消息，方法内部可以传递数据和操作数据。 平时我们声明一个对象，例如:NSString *string = @&amp;quot;zzy&amp;quot;; 这条语">
@@ -152,7 +152,7 @@
 </li>
 </ul>
 <p>三者的关系：在runtime期间，类（Class）维护了一个消息分发的列表，列表的入口是一个<code>Method</code>，<code>Method</code>中映射了一个键值对，key就是方法的名称<code>selector</code>，value就是指向这个方法实现的函数指针<code>IMP</code>。这也是方法查找的具体实现。</p>
-<p>如果在runtime期间修改了方法列表，让已经存在的<code>selector</code>映射到另外一个<code>IMP</code>，然后用一个新的<code>selector</code>映射到原来的<code>IMP</code>，则可以达到动态修改方法实现的效果，这就是<code>Method swizzling</code>。</p>
+<p>如果在runtime期间修改了方法列表，让已经存在的<code>selector</code>映射到另外一个<code>IMP</code>，然后用一个新的<code>selector</code>映射到原来的<code>IMP</code>，则可以达到动态修改方法实现的效果，这就是<code>Method swizzling</code>。关于<code>Method swizzling</code>的使用，这篇文章介绍的比较全面: <a href="http://www.tanhao.me/code/160723.html/" target="_blank" rel="noopener">Method Swizzling的各种姿势</a></p>
 <h3 id="关于category"><a href="#关于category" class="headerlink" title="关于category"></a>关于category</h3><p>category可以给一个类添加方法，但是需要注意以下几点:</p>
 <ul>
 <li>1.如果分类实现了和主类同样的方法，会覆盖主类的方法（load方法除外）</li>
@@ -183,7 +183,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjprtzs970000rxdrr29ksrsf" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjps5geld0001cqdrulwbqrja" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
