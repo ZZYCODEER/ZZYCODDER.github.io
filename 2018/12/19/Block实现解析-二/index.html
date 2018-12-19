@@ -7,18 +7,18 @@
   
   <title>Block实现解析(二) | zzy&#39;s Blog</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量。 __block">
+  <meta name="description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量值。来看下__block是如何实现改变外部变量的。 __block">
 <meta name="keywords" content="Block实现解析(二)">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Block实现解析(二)">
 <meta property="og:url" content="https://zzycodder.github.io/2018/12/19/Block实现解析-二/index.html">
 <meta property="og:site_name" content="zzy&#39;s Blog">
-<meta property="og:description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量。 __block">
+<meta property="og:description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量值。来看下__block是如何实现改变外部变量的。 __block">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2018-12-19T07:31:15.000Z">
+<meta property="og:updated_time" content="2018-12-19T08:34:01.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Block实现解析(二)">
-<meta name="twitter:description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量。 __block">
+<meta name="twitter:description" content="前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了__block修饰符让我们能够修改外部变量值。来看下__block是如何实现改变外部变量的。 __block">
   
     <link rel="alternate" href="/atom.xml" title="zzy&#39;s Blog" type="application/atom+xml">
   
@@ -91,12 +91,12 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了<code>__block</code>修饰符让我们能够修改外部变量。</p>
+        <p>前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了<code>__block</code>修饰符让我们能够修改外部变量值。来看下<code>__block</code>是如何实现改变外部变量的。</p>
 <h3 id="block"><a href="#block" class="headerlink" title="__block"></a>__block</h3>
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/19/Block实现解析-二/" data-id="cjpuwl111000063f1fupbvzxg" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/19/Block实现解析-二/" data-id="cjpv0c1pv0001qcf1iwuewnbs" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Block实现解析-二/">Block实现解析(二)</a></li></ul>
