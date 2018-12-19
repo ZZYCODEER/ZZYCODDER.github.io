@@ -70,9 +70,48 @@
       <div class="outer">
         <section id="main">
   
-    <article id="post-Block实现解析（一）" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-Block实现解析-二" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
-    <a href="/2018/12/19/Block实现解析（一）/" class="article-date">
+    <a href="/2018/12/19/Block实现解析-二/" class="article-date">
+  <time datetime="2018-12-19T07:28:41.000Z" itemprop="datePublished">2018-12-19</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/12/19/Block实现解析-二/">Block实现解析(二)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>前面介绍了block的结构以及block是如何捕获外部变量值。由于block捕获的外部变量值不能修改，所以OC提供了<code>__block</code>修饰符让我们能够修改外部变量。</p>
+<h3 id="block"><a href="#block" class="headerlink" title="__block"></a>__block</h3>
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzycodder.github.io/2018/12/19/Block实现解析-二/" data-id="cjpuwl111000063f1fupbvzxg" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Block实现解析-二/">Block实现解析(二)</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-Block实现解析-一" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2018/12/19/Block实现解析-一/" class="article-date">
   <time datetime="2018-12-19T03:38:44.000Z" itemprop="datePublished">2018-12-19</time>
 </a>
     
@@ -84,7 +123,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2018/12/19/Block实现解析（一）/">Block实现解析（一）</a>
+      <a class="article-title" href="/2018/12/19/Block实现解析-一/">Block实现解析（一）</a>
     </h1>
   
 
@@ -93,9 +132,9 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>最近研究了下Block的实现代码，解惑了以前一直好奇的Block捕获外部变量，__block，Block回调等特性，在此记录下Block的实现原理。</p>
-<h3 id="最简单的没有变量捕获的block"><a href="#最简单的没有变量捕获的block" class="headerlink" title="最简单的没有变量捕获的block"></a>最简单的没有变量捕获的block</h3><p>准备工作：在工程中创建了一个<code>Block.c</code>的文件，在里面写了一个简单的没有变量捕获的block：</p>
+<h3 id="最简单的没有变量捕获的block"><a href="#最简单的没有变量捕获的block" class="headerlink" title="最简单的没有变量捕获的block"></a>最简单的没有变量捕获的block</h3><p>准备工作：在工程中创建了一个<code>Block.c</code>的文件，在里面写了一个名为<code>blockMain</code>的函数，实现了一个简单的没有变量捕获的block：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">void blockMain() &#123;</span><br><span class="line"></span><br><span class="line">    void(^MyBlock)(void) =  ^&#123;</span><br><span class="line">            printf(&quot;block test&quot;);</span><br><span class="line">        &#125;;</span><br><span class="line">    MyBlock();</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>在这个文件目录下执行<code>clang -rewrite-objc Block.c</code>，转换成C++实现代码如下:</p>
+<p>在这个文件目录下执行<code>clang -rewrite-objc Block.c</code>，会生成一个<code>.cpp</code>文件，打开文件就可以看到block的实现代码如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">struct __block_impl &#123;</span><br><span class="line">    void *isa;</span><br><span class="line">    int Flags;</span><br><span class="line">    int Reserved;</span><br><span class="line">    void *FuncPtr;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">struct __blockMain_block_impl_0 &#123;</span><br><span class="line">  struct __block_impl impl;</span><br><span class="line">  struct __blockMain_block_desc_0* Desc;</span><br><span class="line">  __blockMain_block_impl_0(void *fp, struct __blockMain_block_desc_0 *desc, int flags=0) &#123;</span><br><span class="line">    impl.isa = &amp;_NSConcreteStackBlock;</span><br><span class="line">    impl.Flags = flags;</span><br><span class="line">    impl.FuncPtr = fp;</span><br><span class="line">    Desc = desc;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">static void __blockMain_block_func_0(struct __blockMain_block_impl_0 *__cself) &#123;</span><br><span class="line">       printf(&quot;block test&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">static struct __blockMain_block_desc_0 &#123;</span><br><span class="line">  size_t reserved;</span><br><span class="line">  size_t Block_size;</span><br><span class="line">&#125; __blockMain_block_desc_0_DATA = &#123; 0, sizeof(struct __blockMain_block_impl_0)&#125;;</span><br><span class="line"></span><br><span class="line">void blockMain() &#123;</span><br><span class="line">    void(*MyBlock)(void) = ((void (*)())&amp;__blockMain_block_impl_0((void *)__blockMain_block_func_0, &amp;__blockMain_block_desc_0_DATA));</span><br><span class="line">    ((void (*)(__block_impl *))((__block_impl *)MyBlock)-&gt;FuncPtr)((__block_impl *)MyBlock);</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>可以看到这个没有捕获变量的Block的底层实现主要是有三个结构体和一个函数。</p>
 <p><code>__blockMain_block_impl_0</code>就是我们在上面blockMain函数中写的<code>MyBlock</code>的底层实现，是一个结构体。这个结构体的命名是以block所在的函数名为开头，block在函数中出现的顺序为结尾，拼上<code>_block_impl_</code>组成，也即：<code>__blockMain</code> + <code>_block_impl_</code> +<code>0</code>，（下面的函数名和结构体名称也是这样命名的）。这个结构体是由两个结构体成员变量<code>struct __block_impl impl</code>、<code>struct __blockMain_block_desc_0* Desc</code>和一个构造函数<code>__blockMain_block_impl_0</code>所组成：</p>
@@ -158,7 +197,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/19/Block实现解析（一）/" data-id="cjpuuth8700009of1kknlud7p" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/19/Block实现解析-一/" data-id="cjpuwl11g000363f1lu1ynly5" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Block实现解析（一）/">Block实现解析（一）</a></li></ul>
@@ -304,7 +343,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpuuth8d00019of1hi59b2zy" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpuwl11k000463f1jyr41zu4" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -405,7 +444,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpuuth8s00049of1tuj500xv" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpuwl11p000563f1vsg4j769" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -529,7 +568,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpuuth8n00039of1q9b8qj1g" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpuwl117000163f1hmmgfpac" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
@@ -554,7 +593,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Block实现解析（一）/">Block实现解析（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Block实现解析-二/">Block实现解析(二)</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Block实现解析（一）/">Block实现解析（一）</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
     </div>
   </div>
 
@@ -564,7 +603,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Block实现解析（一）/" style="font-size: 10px;">Block实现解析（一）</a> <a href="/tags/Objective-C-一-对象、属性、方法/" style="font-size: 10px;">Objective-C-(一)对象、属性、方法</a> <a href="/tags/Objective-C-二-内存管理/" style="font-size: 10px;">Objective-C-(二)内存管理</a> <a href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/" style="font-size: 10px;">关于截图(renderInContext && drawViewHierarchyInRect)</a>
+      <a href="/tags/Block实现解析-二/" style="font-size: 10px;">Block实现解析(二)</a> <a href="/tags/Block实现解析（一）/" style="font-size: 10px;">Block实现解析（一）</a> <a href="/tags/Objective-C-一-对象、属性、方法/" style="font-size: 10px;">Objective-C-(一)对象、属性、方法</a> <a href="/tags/Objective-C-二-内存管理/" style="font-size: 10px;">Objective-C-(二)内存管理</a> <a href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/" style="font-size: 10px;">关于截图(renderInContext && drawViewHierarchyInRect)</a>
     </div>
   </div>
 
@@ -586,7 +625,11 @@
       <ul>
         
           <li>
-            <a href="/2018/12/19/Block实现解析（一）/">Block实现解析（一）</a>
+            <a href="/2018/12/19/Block实现解析-二/">Block实现解析(二)</a>
+          </li>
+        
+          <li>
+            <a href="/2018/12/19/Block实现解析-一/">Block实现解析（一）</a>
           </li>
         
           <li>
