@@ -174,7 +174,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析-一/" data-id="cjpvzrifk0001f4f1b1qti7lk" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析-一/" data-id="cjpw8ar3x0001s0f1q2bpth6u" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-三-Block实现解析/">Objective-C-(三)Block实现解析</a></li></ul>
@@ -320,7 +320,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpvzrig00004f4f1dsjgjn5x" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjpw8ar4b0004s0f1ab1i98c6" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -408,7 +408,7 @@
 <p><img src="https://wx3.sinaimg.cn/mw690/007lgANOgy1fy1s3kere9j30790dcmy2.jpg" alt=""></p>
 <h2 id="裁剪图片"><a href="#裁剪图片" class="headerlink" title="裁剪图片"></a>裁剪图片</h2><p>裁剪图片就是对当前的图片按照指定的大小范围生成一个新的图片，方法如下:</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)createImageWithRect:(CGRect)rect image:(UIImage *)clipImage &#123;</span><br><span class="line">    CGImageRef imageRef = CGImageCreateWithImageInRect(clipImage.CGImage, rect);</span><br><span class="line">    UIImage *image = [UIImage imageWithCGImage:imageRef scale:clipImage.scale orientation:UIImageOrientationUp];</span><br><span class="line">    CGImageRelease(imageRef);</span><br><span class="line">    return image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里的<code>rect</code>就是指定的裁剪范围。方法比较简单，没有什么好解释的。主要注意的是，这里<code>rect</code> 包含的<code>x</code>,<code>y</code>,<code>width</code>,<code>height</code>应该是图片的绝对尺寸乘以图片的缩放因子，否则裁剪出来的图片是不对的。完整方法可改为：</p>
+<p>这里的<code>rect</code>就是指定的裁剪范围。方法比较简单，没有什么好解释的。主要注意的是，这里<code>rect</code> 包含的<code>x</code>,<code>y</code>,<code>width</code>,<code>height</code>应该是图片的绝对尺寸乘以图片的缩放因子，否则裁剪出来的图片是不对的。如果图片是1倍图会没什么问题，但是如果是2倍图或者3倍图，要么可能尺寸不对，要么截出来的图片很模糊。完整方法可改为：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">- (UIImage *)createImageWithRect:(CGRect)rect image:(UIImage *)clipImage &#123;</span><br><span class="line">    rect.origin.x *= clipImage.scale;</span><br><span class="line">    rect.origin.y *= clipImage.scale;</span><br><span class="line">    rect.size.width *= clipImage.scale;</span><br><span class="line">    rect.size.height *= clipImage.scale;</span><br><span class="line">    CGImageRef imageRef = CGImageCreateWithImageInRect(clipImage.CGImage, rect);</span><br><span class="line">    UIImage *image = [UIImage imageWithCGImage:imageRef scale:clipImage.scale orientation:UIImageOrientationUp];</span><br><span class="line">    CGImageRelease(imageRef);</span><br><span class="line">    return image;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h2 id="其他注意点"><a href="#其他注意点" class="headerlink" title="其他注意点:"></a>其他注意点:</h2><h4 id="WKWebView"><a href="#WKWebView" class="headerlink" title="WKWebView"></a>WKWebView</h4><ul>
 <li>对于WKWebView使用 <code>renderInContext</code>的方法进行截图的时候， 当WKWebView 执行<code>UIGraphicsGetCurrentContext()</code>的结果返回的nil，截图失败</li>
@@ -421,7 +421,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpvzrifu0003f4f1rmm1riq0" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjpw8ar470003s0f1wv60q8ee" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -545,7 +545,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpvzrife0000f4f14927drgt" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjpw8ar3r0000s0f1mxpeuzan" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
