@@ -70,6 +70,56 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-Oracle学习" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/14/Oracle学习/" class="article-date">
+  <time datetime="2019-03-14T03:30:46.000Z" itemprop="datePublished">2019-03-14</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="Oracle学习"><a href="#Oracle学习" class="headerlink" title="Oracle学习"></a>Oracle学习</h1><h3 id="查询一个列数据"><a href="#查询一个列数据" class="headerlink" title="查询一个列数据"></a>查询一个列数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	name</span><br><span class="line">FROM</span><br><span class="line">	customers;</span><br><span class="line">SQL</span><br></pre></td></tr></table></figure>
+<h3 id="查询多个列数据"><a href="#查询多个列数据" class="headerlink" title="查询多个列数据"></a>查询多个列数据</h3><p>要从多个列查询数据，请指定一个以逗号分隔的列名称列表。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	customer_id,</span><br><span class="line">	name,</span><br><span class="line">	credit_limt</span><br><span class="line">from </span><br><span class="line">	customers;</span><br></pre></td></tr></table></figure>
+<h3 id="查询所有数据"><a href="#查询所有数据" class="headerlink" title="查询所有数据"></a>查询所有数据</h3><p>查看所有列可以使用简写星号(*)来指示Oracle从表中返回所有列的数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	*</span><br><span class="line">from </span><br><span class="line">	customers;</span><br></pre></td></tr></table></figure>
+<h3 id="排序：-ORDER-BY"><a href="#排序：-ORDER-BY" class="headerlink" title="排序： ORDER BY"></a>排序： ORDER BY</h3><p>ORDER BY子句可以用来对一列或多列的结果集按升序或降序进行排序。默认是ASC排序</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select name, address, credit_limt</span><br><span class="line">from customers </span><br><span class="line">order by name ASC</span><br></pre></td></tr></table></figure>
+<h3 id="过滤重复行-DISTINCT"><a href="#过滤重复行-DISTINCT" class="headerlink" title="过滤重复行 : DISTINCT"></a>过滤重复行 : <strong>DISTINCT</strong></h3><p>SELECT DISTINCT可以用来过滤结果集中的重复行，确保SELECT子句中返回指定的一列或多列的值是唯一的。</p>
+<h4 id="distinct-应用一列："><a href="#distinct-应用一列：" class="headerlink" title="distinct 应用一列："></a>distinct 应用一列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct first_name from CONTACTS order by first_name</span><br></pre></td></tr></table></figure>
+<h4 id="disctinct-应用多列："><a href="#disctinct-应用多列：" class="headerlink" title="disctinct 应用多列："></a>disctinct 应用多列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select distinct product_id, quantity from ORDER_ITEMS </span><br><span class="line">order by product_id</span><br></pre></td></tr></table></figure>
+<h3 id="符合查询条件-WHERE"><a href="#符合查询条件-WHERE" class="headerlink" title="符合查询条件: WHERE"></a>符合查询条件: WHERE</h3><p><strong>WHERE</strong>子句指定<strong>SELECT</strong>语句返回符合条件的行记录。Where子句来指定过滤的条件返回符合查询条件的行记录。</p>
+<p>以下示例仅返回名称为“Kingston”的产品：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">	product_name, description, list_price, category_id</span><br><span class="line">FROM </span><br><span class="line">	products </span><br><span class="line">WHERE</span><br><span class="line">	product_name = ‘Kiingston’;</span><br></pre></td></tr></table></figure>
+<h4 id="1-选择符合某些条件的行"><a href="#1-选择符合某些条件的行" class="headerlink" title="1.选择符合某些条件的行"></a>1.选择符合某些条件的行</h4><p>要组合条件，可以使用AND，OR和NOT逻辑运算符。</p>
+<p>例如，要获取属于类别编号是4且标价大于500的所有主板，请使用以下语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line"> 	product_name,</span><br><span class="line">	list_price</span><br><span class="line">FROM</span><br><span class="line">	products</span><br><span class="line">WHERE</span><br><span class="line">	list_price &gt; 500</span><br><span class="line">	AND category_id = 4;</span><br></pre></td></tr></table></figure>
+<h4 id="2-选择在两个值之间的值的行记录"><a href="#2-选择在两个值之间的值的行记录" class="headerlink" title="2. 选择在两个值之间的值的行记录"></a>2. <strong>选择在两个值之间的值的行记录</strong></h4><p>要查找具有两个值之间的值的行，请在WHERE子句中使用BETWEEN运算符。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where</span><br><span class="line">	list_price between 650 and 680</span><br><span class="line">order by</span><br><span class="line">	list_price;</span><br></pre></td></tr></table></figure>
+<h4 id="3-选择符合值列表中的行记录"><a href="#3-选择符合值列表中的行记录" class="headerlink" title="3. 选择符合值列表中的行记录"></a>3. 选择符合值列表中的行记录</h4><p>要查询值列表中的行记录，可以使用IN运算符：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line"> 	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where</span><br><span class="line">	cateroy_id IN (1, 4)</span><br><span class="line">order by</span><br><span class="line">	product_name;</span><br></pre></td></tr></table></figure>
+<h4 id="4-选择包含值的行作为字符串的一部分-LIKE"><a href="#4-选择包含值的行作为字符串的一部分-LIKE" class="headerlink" title="4. 选择包含值的行作为字符串的一部分: LIKE"></a>4. 选择包含值的行作为字符串的一部分<strong>: LIKE</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where </span><br><span class="line">	product_name LIKE ‘Asus%’</span><br><span class="line">order by</span><br><span class="line">	list_price;</span><br></pre></td></tr></table></figure>
+<h3 id="指定要返回的行数或百分比-FETCH"><a href="#指定要返回的行数或百分比-FETCH" class="headerlink" title="指定要返回的行数或百分比 : FETCH"></a><strong>指定要返回的行数或百分比</strong> : FETCH</h3><p>获取前<strong>N</strong>行记录的示例:</p>
+<p>以下语句返回库存量最高的前10个产品：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	quanlity,</span><br><span class="line">from</span><br><span class="line">	inventories</span><br><span class="line">inner join products</span><br><span class="line">	using(product_id)</span><br><span class="line">order by</span><br><span class="line">	quanlity desc</span><br><span class="line">fetch next 5 rows only;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://zzycodder.github.io/2019/03/14/Oracle学习/" data-id="cjt846pvv00038yf1q6hcjczh" class="article-share-link">Share</a>
+      
+      
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-Objective-C-四-多线程" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-meta">
     <a href="/2019/01/01/Objective-C-四-多线程/" class="article-date">
@@ -218,7 +268,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2019/01/01/Objective-C-四-多线程/" data-id="cjqdmi0ql0004smf1g16mlhif" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2019/01/01/Objective-C-四-多线程/" data-id="cjt846pw700058yf1dc9ntn3e" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-四-多线程/">Objective-C-(四)-多线程</a></li></ul>
@@ -334,7 +384,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析/" data-id="cjqdmi0q60001smf1it12zg68" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析/" data-id="cjt846pvm00018yf19meyol4o" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-三-Block实现解析/">Objective-C-(三)Block实现解析</a></li></ul>
@@ -480,7 +530,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjqdmi0qg0003smf1yygqgd9u" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjt846pw200048yf1hkuwy5gx" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -581,7 +631,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjqdmi0qq0005smf1qqmw6mzm" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjt846pwa00088yf12gn04e57" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -705,7 +755,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjqdmi0q00000smf1kqsgtiso" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjt846pvg00008yf1lxtdlr77" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
@@ -749,7 +799,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/01/">January 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/12/">December 2018</a></li></ul>
     </div>
   </div>
 
@@ -760,6 +810,10 @@
     <h3 class="widget-title">Recent Posts</h3>
     <div class="widget">
       <ul>
+        
+          <li>
+            <a href="/2019/03/14/Oracle学习/">(no title)</a>
+          </li>
         
           <li>
             <a href="/2019/01/01/Objective-C-四-多线程/">Objective-C-(四)-多线程</a>
@@ -775,10 +829,6 @@
         
           <li>
             <a href="/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/">关于截图的注意点(renderInContext &amp;&amp; drawViewHierarchyInRect)</a>
-          </li>
-        
-          <li>
-            <a href="/2018/12/07/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a>
           </li>
         
       </ul>
