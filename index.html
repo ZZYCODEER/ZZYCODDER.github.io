@@ -82,35 +82,76 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h1 id="Oracle学习"><a href="#Oracle学习" class="headerlink" title="Oracle学习"></a>Oracle学习</h1><h3 id="查询一个列数据"><a href="#查询一个列数据" class="headerlink" title="查询一个列数据"></a>查询一个列数据</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	name</span><br><span class="line">FROM</span><br><span class="line">	customers;</span><br><span class="line">SQL</span><br></pre></td></tr></table></figure>
-<h3 id="查询多个列数据"><a href="#查询多个列数据" class="headerlink" title="查询多个列数据"></a>查询多个列数据</h3><p>要从多个列查询数据，请指定一个以逗号分隔的列名称列表。</p>
+        <h1 id="Oracle学习"><a href="#Oracle学习" class="headerlink" title="Oracle学习"></a>Oracle学习</h1><h3 id="一-查询"><a href="#一-查询" class="headerlink" title="一.查询"></a>一.查询</h3><h4 id="1-1-查询一个列数据"><a href="#1-1-查询一个列数据" class="headerlink" title="1.1 查询一个列数据"></a>1.1 查询一个列数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line">	name</span><br><span class="line">FROM</span><br><span class="line">	customers;</span><br><span class="line">SQL</span><br></pre></td></tr></table></figure>
+<h4 id="1-2-查询多个列数据"><a href="#1-2-查询多个列数据" class="headerlink" title="1.2 查询多个列数据"></a>1.2 查询多个列数据</h4><p>要从多个列查询数据，请指定一个以逗号分隔的列名称列表。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	customer_id,</span><br><span class="line">	name,</span><br><span class="line">	credit_limt</span><br><span class="line">from </span><br><span class="line">	customers;</span><br></pre></td></tr></table></figure>
-<h3 id="查询所有数据"><a href="#查询所有数据" class="headerlink" title="查询所有数据"></a>查询所有数据</h3><p>查看所有列可以使用简写星号(*)来指示Oracle从表中返回所有列的数据</p>
+<h4 id="1-3-查询所有数据"><a href="#1-3-查询所有数据" class="headerlink" title="1.3 查询所有数据"></a>1.3 查询所有数据</h4><p>查看所有列可以使用简写星号(*)来指示Oracle从表中返回所有列的数据</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line">	*</span><br><span class="line">from </span><br><span class="line">	customers;</span><br></pre></td></tr></table></figure>
-<h3 id="排序：-ORDER-BY"><a href="#排序：-ORDER-BY" class="headerlink" title="排序： ORDER BY"></a>排序： ORDER BY</h3><p>ORDER BY子句可以用来对一列或多列的结果集按升序或降序进行排序。默认是ASC排序</p>
+<h3 id="二-排序：-ORDER-BY"><a href="#二-排序：-ORDER-BY" class="headerlink" title="二. 排序： ORDER BY"></a>二. 排序： ORDER BY</h3><p>ORDER BY子句可以用来对一列或多列的结果集按升序或降序进行排序。默认是ASC排序</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">select name, address, credit_limt</span><br><span class="line">from customers </span><br><span class="line">order by name ASC</span><br></pre></td></tr></table></figure>
-<h3 id="过滤重复行-DISTINCT"><a href="#过滤重复行-DISTINCT" class="headerlink" title="过滤重复行 : DISTINCT"></a>过滤重复行 : <strong>DISTINCT</strong></h3><p>SELECT DISTINCT可以用来过滤结果集中的重复行，确保SELECT子句中返回指定的一列或多列的值是唯一的。</p>
-<h4 id="distinct-应用一列："><a href="#distinct-应用一列：" class="headerlink" title="distinct 应用一列："></a>distinct 应用一列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct first_name from CONTACTS order by first_name</span><br></pre></td></tr></table></figure>
-<h4 id="disctinct-应用多列："><a href="#disctinct-应用多列：" class="headerlink" title="disctinct 应用多列："></a>disctinct 应用多列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select distinct product_id, quantity from ORDER_ITEMS </span><br><span class="line">order by product_id</span><br></pre></td></tr></table></figure>
-<h3 id="符合查询条件-WHERE"><a href="#符合查询条件-WHERE" class="headerlink" title="符合查询条件: WHERE"></a>符合查询条件: WHERE</h3><p><strong>WHERE</strong>子句指定<strong>SELECT</strong>语句返回符合条件的行记录。Where子句来指定过滤的条件返回符合查询条件的行记录。</p>
+<h3 id="三-过滤重复行-DISTINCT"><a href="#三-过滤重复行-DISTINCT" class="headerlink" title="三. 过滤重复行 : DISTINCT"></a>三. 过滤重复行 : <strong>DISTINCT</strong></h3><p>SELECT DISTINCT可以用来过滤结果集中的重复行，确保SELECT子句中返回指定的一列或多列的值是唯一的。</p>
+<h4 id="3-1-distinct-应用一列："><a href="#3-1-distinct-应用一列：" class="headerlink" title="3.1 distinct 应用一列："></a>3.1 distinct 应用一列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">select distinct first_name from CONTACTS order by first_name</span><br></pre></td></tr></table></figure>
+<h4 id="3-2-disctinct-应用多列："><a href="#3-2-disctinct-应用多列：" class="headerlink" title="3.2 disctinct 应用多列："></a>3.2 disctinct 应用多列：</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select distinct product_id, quantity from ORDER_ITEMS </span><br><span class="line">order by product_id</span><br></pre></td></tr></table></figure>
+<h3 id="四-符合查询条件-WHERE"><a href="#四-符合查询条件-WHERE" class="headerlink" title="四. 符合查询条件: WHERE"></a>四. 符合查询条件: WHERE</h3><p><strong>WHERE</strong>子句指定<strong>SELECT</strong>语句返回符合条件的行记录。Where子句来指定过滤的条件返回符合查询条件的行记录。</p>
 <p>以下示例仅返回名称为“Kingston”的产品：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">SELECT </span><br><span class="line">	product_name, description, list_price, category_id</span><br><span class="line">FROM </span><br><span class="line">	products </span><br><span class="line">WHERE</span><br><span class="line">	product_name = ‘Kiingston’;</span><br></pre></td></tr></table></figure>
-<h4 id="1-选择符合某些条件的行"><a href="#1-选择符合某些条件的行" class="headerlink" title="1.选择符合某些条件的行"></a>1.选择符合某些条件的行</h4><p>要组合条件，可以使用AND，OR和NOT逻辑运算符。</p>
+<h4 id="4-1-选择符合某些条件的行"><a href="#4-1-选择符合某些条件的行" class="headerlink" title="4.1.选择符合某些条件的行"></a>4.1.选择符合某些条件的行</h4><p>要组合条件，可以使用AND，OR和NOT逻辑运算符。</p>
 <p>例如，要获取属于类别编号是4且标价大于500的所有主板，请使用以下语句：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">SELECT</span><br><span class="line"> 	product_name,</span><br><span class="line">	list_price</span><br><span class="line">FROM</span><br><span class="line">	products</span><br><span class="line">WHERE</span><br><span class="line">	list_price &gt; 500</span><br><span class="line">	AND category_id = 4;</span><br></pre></td></tr></table></figure>
-<h4 id="2-选择在两个值之间的值的行记录"><a href="#2-选择在两个值之间的值的行记录" class="headerlink" title="2. 选择在两个值之间的值的行记录"></a>2. <strong>选择在两个值之间的值的行记录</strong></h4><p>要查找具有两个值之间的值的行，请在WHERE子句中使用BETWEEN运算符。</p>
+<h4 id="4-2-选择在两个值之间的值的行记录"><a href="#4-2-选择在两个值之间的值的行记录" class="headerlink" title="4.2. 选择在两个值之间的值的行记录"></a>4.2. <strong>选择在两个值之间的值的行记录</strong></h4><p>要查找具有两个值之间的值的行，请在WHERE子句中使用BETWEEN运算符。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where</span><br><span class="line">	list_price between 650 and 680</span><br><span class="line">order by</span><br><span class="line">	list_price;</span><br></pre></td></tr></table></figure>
-<h4 id="3-选择符合值列表中的行记录"><a href="#3-选择符合值列表中的行记录" class="headerlink" title="3. 选择符合值列表中的行记录"></a>3. 选择符合值列表中的行记录</h4><p>要查询值列表中的行记录，可以使用IN运算符：</p>
+<h4 id="4-3-选择符合值列表中的行记录"><a href="#4-3-选择符合值列表中的行记录" class="headerlink" title="4.3. 选择符合值列表中的行记录"></a>4.3. 选择符合值列表中的行记录</h4><p>要查询值列表中的行记录，可以使用IN运算符：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select</span><br><span class="line"> 	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where</span><br><span class="line">	cateroy_id IN (1, 4)</span><br><span class="line">order by</span><br><span class="line">	product_name;</span><br></pre></td></tr></table></figure>
-<h4 id="4-选择包含值的行作为字符串的一部分-LIKE"><a href="#4-选择包含值的行作为字符串的一部分-LIKE" class="headerlink" title="4. 选择包含值的行作为字符串的一部分: LIKE"></a>4. 选择包含值的行作为字符串的一部分<strong>: LIKE</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where </span><br><span class="line">	product_name LIKE ‘Asus%’</span><br><span class="line">order by</span><br><span class="line">	list_price;</span><br></pre></td></tr></table></figure>
-<h3 id="指定要返回的行数或百分比-FETCH"><a href="#指定要返回的行数或百分比-FETCH" class="headerlink" title="指定要返回的行数或百分比 : FETCH"></a><strong>指定要返回的行数或百分比</strong> : FETCH</h3><p>获取前<strong>N</strong>行记录的示例:</p>
+<h4 id="4-4-选择包含值的行作为字符串的一部分-LIKE"><a href="#4-4-选择包含值的行作为字符串的一部分-LIKE" class="headerlink" title="4.4. 选择包含值的行作为字符串的一部分: LIKE"></a>4.4. 选择包含值的行作为字符串的一部分<strong>: LIKE</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	list_price</span><br><span class="line">from</span><br><span class="line">	products</span><br><span class="line">where </span><br><span class="line">	product_name LIKE ‘Asus%’</span><br><span class="line">order by</span><br><span class="line">	list_price;</span><br></pre></td></tr></table></figure>
+<h3 id="五-指定要返回的行数或百分比-FETCH"><a href="#五-指定要返回的行数或百分比-FETCH" class="headerlink" title="五. 指定要返回的行数或百分比 : FETCH"></a><strong>五. 指定要返回的行数或百分比</strong> : FETCH</h3><p>获取前<strong>N</strong>行记录的示例:</p>
 <p>以下语句返回库存量最高的前10个产品：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">select </span><br><span class="line">	product_name,</span><br><span class="line">	quanlity,</span><br><span class="line">from</span><br><span class="line">	inventories</span><br><span class="line">inner join products</span><br><span class="line">	using(product_id)</span><br><span class="line">order by</span><br><span class="line">	quanlity desc</span><br><span class="line">fetch next 5 rows only;</span><br></pre></td></tr></table></figure>
+<h3 id="六-授权"><a href="#六-授权" class="headerlink" title="六. 授权"></a>六. 授权</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//授权创建同义词的权限给hrpuser用户</span><br><span class="line">grant create any synonym to hrpuser</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/删除公用同义词EF_COST_WBWORKNUMDATA</span><br><span class="line">drop public synonym EF_COST_WBWORKNUMDATA</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//为ythis用户的EF_IF_V_optTYPE表创建公用同义词EF_IF_V_optTYPE。</span><br><span class="line">create public synonym EF_IF_V_optTYPE for ytis. EF_IF_V_optTYPE</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">//表权限</span><br><span class="line">//给与hrpuser用户，EF_IF_V_optTYPE表的查询权限</span><br><span class="line"></span><br><span class="line">grant select on EF_IF_V_optTYPE to hrpuser</span><br></pre></td></tr></table></figure>
+<p>首先连接到托管Oracle的服务器，然后以SYSTEM帐户身份连接到Oracle本身。</p>
+<p>该SYSTEM帐户是安装Oracle时自动生成的少数预定义管理帐户之一。 SYSTEM能够执行大多数管理任务，我们就看看帐户管理。</p>
+<h4 id="6-1-创建用户"><a href="#6-1-创建用户" class="headerlink" title="6.1 创建用户"></a>6.1 创建用户</h4><p>连接后SYSTEM，只需发出CREATE USER命令即可生成新帐户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create books_admin(用户名) books(表明) identified by 123456(密码)</span><br></pre></td></tr></table></figure>
+<p>在这里，我们只是创建一个由指定的books_admin帐户进行IDENTIFIED身份验证的帐户password。</p>
+<h4 id="6-2-授权语句"><a href="#6-2-授权语句" class="headerlink" title="6.2 授权语句"></a>6.2 授权语句</h4><p>books_admin创建新帐户后，我们现在可以开始使用该GRANT语句向帐户添加权限。 GRANT是一个非常强大的语句，有许多可能的选项，但核心功能是管理两个users和roles整个数据库的权限。</p>
+<h4 id="6-3-提供角色"><a href="#6-3-提供角色" class="headerlink" title="6.3 提供角色"></a>6.3 提供角色</h4><p>通常，您首先要通过将帐户附加到各种角色来为用户分配权限，从角色开始CONNECT：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant CONNECT(角色名称) TO books_admin(用户名);</span><br></pre></td></tr></table></figure>
+<p>在某些情况下，为了创建更强大的用户，您还可以考虑添加RESOURCE角色（允许用户为自定义模式创建命名类型）甚至DBA角色，这允许用户不仅创建自定义命名类型，还可以更改和销毁它们同样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant CONNECT, RESOURCE, DBA to books_admin（用户名);</span><br></pre></td></tr></table></figure>
+<h4 id="6-4-分配权限"><a href="#6-4-分配权限" class="headerlink" title="6.4 分配权限"></a>6.4 分配权限</h4><p>接下来，您需要确保用户具有实际连接到数据库并使用【创建会话的权限】grant create session。我们还将它与【所有权限】结合使用grant any privileges。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant create session  to books_admin;//授予books_admin用户创建session的权限，即登陆权限</span><br><span class="line">grant any privilege to books_admin(用户名);</span><br></pre></td></tr></table></figure>
+<p>我们还需要确保我们的新用户在系统中分配了磁盘空间来实际创建或修改表和数据，所以我们会grant tablespace这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">//授予用户使用表空间的权限</span><br><span class="line">grant unlimited tablespace to books_admin(用户名)</span><br></pre></td></tr></table></figure>
+<h4 id="6-5-表权限"><a href="#6-5-表权限" class="headerlink" title="6.5 表权限"></a>6.5 表权限</h4><p>虽然在较新版本的Oracle中通常不需要，但某些较旧的安装可能要求您手动指定新用户对特定架构和数据库表的访问权限。</p>
+<p>举例来说，如果我们希望我们的books_admin用户有执行能力SELECT，UPDATE，INSERT，和DELETE在功能books表中，我们可以执行以下GRANT语句：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grant select,insert,update,delete on books to books_admin</span><br></pre></td></tr></table></figure>
+<h3 id="七-同义词（synonyms）"><a href="#七-同义词（synonyms）" class="headerlink" title="七. 同义词（synonyms）"></a>七. 同义词（synonyms）</h3><p>Oracle的同义词（synonyms）从字面上理解就是别名的意思，和视图的功能类似，就是一种映射关系.</p>
+<p>在Oracle中对用户的管理是使用权限的方式来管理的，也就是说，如果我们想使用数据库，我们就必须得有权限，但是如果是别人将权限授予了我们，我们也是能对数据库进行操作的，但是我们必须要已授权的表的名称前，键入该表所有者的名称，所以这就是比较麻烦的，遇到这种情况，我们该怎么办呢？创建个Oracle同义词吧！这样我们就可以直接使用同义词来使用表了。</p>
+<p>在 user1 下 有表 table1，现在 user2 要使用 table1</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">grant select on table1 to user2;</span><br><span class="line">select * from  user1.table1 ;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">create public synonym table1 for user1.table1</span><br><span class="line">select * from table1; //不需要键入该表所有者的名称</span><br></pre></td></tr></table></figure>
+<h4 id="7-1-同义词的概念"><a href="#7-1-同义词的概念" class="headerlink" title="7.1 同义词的概念"></a>7.1 同义词的概念</h4><p>Oracle数据库中提供了同义词管理的功能。同义词是数据库方案对象的一个别名，经常用于简化对象访问和提高对象访问的安全性。在使用同义词时，Oracle数据库将它翻译成对应方案对象的名字。</p>
+<p>与视图类似，同义词<strong>并不占用实际存储空间，只有在数据字典中保存了同义词的定义</strong>。在Oracle数据库中的大部分数据库对象，如表、视图、序列、存储过程、包等等，数据库管理员都可以根据实际情况为他们定义同义词。</p>
+<h4 id="7-2-Oracle同义词的分类"><a href="#7-2-Oracle同义词的分类" class="headerlink" title="7.2 Oracle同义词的分类"></a>7.2 Oracle同义词的分类</h4><p>Oracle同义词有两种类型，分别是公用<strong>public同义词</strong>与<strong>私有同义词</strong></p>
+<p><strong>1)公用Oracle同义词:</strong></p>
+<p>由一个特殊的用户组Public所拥有。顾名思义，<strong>数据库中所有的用户都可以使用公用同义词</strong>。公用同义词往往用来标示一些比较普通的数据库对象，这些对象往往大家都需要引用。</p>
+<p><strong>2)私有Oracle同义词:</strong></p>
+<p>  它是跟公用同义词所对应，<strong>他是由创建他的用户所有</strong>。当然，这个同义词的创建者，可以通过<strong>授权控制其他用户是否有权使用属于自己的私有同义词</strong>。</p>
+<h4 id="7-3-创建同义词"><a href="#7-3-创建同义词" class="headerlink" title="7.3  创建同义词"></a>7.3  创建同义词</h4><p><strong>1)创建公有Oracle同义词的语法：</strong></p>
+<p>create [public] synonym 同义词名称 for [username.]objectName；</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">create public synonym table_name for user.table_name;</span><br></pre></td></tr></table></figure>
+<p><strong>2)创建一个远程数据库的对象的同义词</strong></p>
+<p> 如果要创建一个远程的数据库上的某张表的同义词，需要先创建一个Database Link(数据库连接)来扩展访问，然后在使用如下语句创建数据库同义词：create synonym table_name for table_name@DB_Link;</p>
+<h3 id="学习参考"><a href="#学习参考" class="headerlink" title="学习参考"></a>学习参考</h3><p><a href="https://terryjs.iteye.com/blog/2258133" target="_blank" rel="noopener">oracle 用户创建及权限设置 和 同义词</a></p>
+<p>[Oracle同义词（synonyms）的概念作用、创建删除查看及Oracle的db link</p>
+<p>](<a href="https://blog.csdn.net/a327736051/article/details/51419163" target="_blank" rel="noopener">https://blog.csdn.net/a327736051/article/details/51419163</a>)</p>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2019/03/14/Oracle学习/" data-id="cjt846pvv00038yf1q6hcjczh" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2019/03/14/Oracle学习/" data-id="cjte261fh0003x6f19maj5n3r" class="article-share-link">Share</a>
       
       
     </footer>
@@ -268,7 +309,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2019/01/01/Objective-C-四-多线程/" data-id="cjt846pw700058yf1dc9ntn3e" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2019/01/01/Objective-C-四-多线程/" data-id="cjte261fs0005x6f1zftikwjj" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-四-多线程/">Objective-C-(四)-多线程</a></li></ul>
@@ -384,7 +425,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析/" data-id="cjt846pvm00018yf19meyol4o" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/19/Objective-C-三-Block实现解析/" data-id="cjte261f70001x6f1idlifrah" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-三-Block实现解析/">Objective-C-(三)Block实现解析</a></li></ul>
@@ -530,7 +571,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjt846pw200048yf1hkuwy5gx" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/14/Objective-C-二-内存管理/" data-id="cjte261fu0008x6f1r0yd8b2t" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-二-内存管理/">Objective-C-(二)内存管理</a></li></ul>
@@ -631,7 +672,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjt846pwa00088yf12gn04e57" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/10/关于截图的注意点-renderInContext-drawViewHierarchyInRect/" data-id="cjte261fl0004x6f17d6x038c" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/关于截图-renderInContext-drawViewHierarchyInRect/">关于截图(renderInContext && drawViewHierarchyInRect)</a></li></ul>
@@ -755,7 +796,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjt846pvg00008yf1lxtdlr77" class="article-share-link">Share</a>
+      <a data-url="https://zzycodder.github.io/2018/12/07/Objective-C-一-对象、属性、方法/" data-id="cjte261f10000x6f1mg8fepmr" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C-一-对象、属性、方法/">Objective-C-(一)对象、属性、方法</a></li></ul>
